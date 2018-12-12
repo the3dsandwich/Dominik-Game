@@ -1,8 +1,8 @@
 MAP_SIZE = 60
-FIELD = 'X'
-MONSTER = 'M'
-ITEM = 'I'
-PATH = ' '
+FIELD = {'display': 'X'}
+MONSTER = {'display': 'M'}
+ITEM = {'display': 'I'}
+PATH = {'display': ' '}
 CHOICES = [FIELD, MONSTER, ITEM, PATH]
 
 
@@ -29,12 +29,7 @@ def is_nei(a, b, alldir=True):
     return False
 
 
-def map_correct(m):
-    # True if map is correct
-    return len([i for i in m if i == PATH]) > MAP_SIZE**2/3
-
-
 def print_map(pm):
     for i in range(MAP_SIZE):
         print(
-            "".join([c+" " for c in pm[i*MAP_SIZE: (i+1)*MAP_SIZE]]))
+            "".join([c['display']+" " for c in pm[i*MAP_SIZE: (i+1)*MAP_SIZE]]))
