@@ -4,6 +4,7 @@ MONSTER = {'display': 'M '}
 ITEM = {'display': 'I '}
 PATH = {'display': '  '}
 LADDER = {'display': 'L '}
+PLAYER = {'display': 'P '}
 CHOICES = [FIELD, MONSTER, ITEM, PATH]
 
 
@@ -31,15 +32,23 @@ def is_nei(a, b, alldir=True, size=MAP_SIZE):
 
 
 def print_map(pm):
+    # prints map
     for i in range(pm.size):
         print("".join([c['display']
                        for c in pm.map[i*pm.size: (i+1)*pm.size]]))
 
 
 def print_location(pm, loc):
+    # prints what player can see at given location
     print("O "*(pm.p_size+2))
     for i in range(pm.p_size):
-        print("O " +
-              "".join([c['display']for c in pm.map[loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2): loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2)+1]]) +
-              "O")
+        if i == pm.p_size//2:
+            p = pm.map[loc - pm.p_size // 2 + pm.size *
+                       (i - pm.p_size // 2): loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2)+1]
+            p[i] = PLAYER
+            print("O " + "".join([c['display'] for c in p]) + "O")
+        else:
+            print("O " +
+                  "".join([c['display'] for c in pm.map[loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2): loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2)+1]]) +
+                  "O")
     print("O "*(pm.p_size+2))
