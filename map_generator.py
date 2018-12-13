@@ -63,4 +63,5 @@ def generate_map(seed, size=MAP_SIZE):
             g_map[i] = FIELD
     # Assign random tile as LADDER
     g_map[random.choice(largest_block)] = LADDER
+    # return pair of map and size of path block
     return (g_map, len(largest_block))
