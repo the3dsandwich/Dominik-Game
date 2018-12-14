@@ -30,14 +30,17 @@ class MapState(Map):
         while True:
             command = input("Your next move: ")
             if command == "map":
+                # display full map
                 self.print_map()
                 continue
             if command in ["exit", "e"]:
+                # exit
                 return None
             if not self.move(command):
+                # not valid direction command
                 print("Wrong command")
             elif type(self.map[self.player_location]) == MonsterTile:
-                print("Monster Encounter")
+                # return current tile
                 return self.map[self.player_location]
 
 

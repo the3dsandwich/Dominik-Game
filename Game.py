@@ -1,7 +1,6 @@
 from StateStack import Stack, MapState, BattleState
 from Unit import Player
-from map_functions import PathTile
-from Unit import Monster
+from map_functions import PathTile, MonsterTile
 
 # initialize map and player
 MS = MapState(3)
@@ -22,7 +21,7 @@ while GameState:
         if event_tile == None:
             break
         # transition to battle if monster encounter
-        if type(event_tile) == Monster:
+        if type(event_tile) == MonsterTile:
             GameState.push(BattleState(player, event_tile.monster))
 
     elif type(GameState.top()) == BattleState:
