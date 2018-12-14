@@ -1,6 +1,6 @@
-class Player():
-    def __init__(self):
-        self.name = "unknown"
+class Unit():
+    def __init__(self, name="Unknown"):
+        self.name = name
         self.HP = 10
         self.MP = 10
         self.MHP = 10
