@@ -10,9 +10,17 @@ class Unit():
 
     def setHP(self, newHP):
         self.HP = newHP if newHP < self.MHP else self.MHP
+        self.HP = 0 if self.HP < 0 else self.HP
+
+    def getHP(self):
+        return self.HP
 
     def setMP(self, newMP):
         self.MP = newMP if newMP < self.MMP else self.MMP
+        self.MP = 0 if self.MP < 0 else self.MP
+
+    def getMP(self):
+        return self.MP
 
     def print_status(self):
         print(self.name)

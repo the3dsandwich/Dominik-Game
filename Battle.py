@@ -11,5 +11,8 @@ class SingleBattle():
         self.unit1.print_status()
         self.unit2.print_status()
 
-    def make_move(self, acting_unit):
-        pass
+    def make_move(self, move, acting_unit=1):
+        acting = self.unit2 if acting_unit == 2 else self.unit1
+        target = self.unit1 if acting == self.unit2 else self.unit2
+        # to be changed, only basic attacking
+        target.setHP(target.getHP - random.randint(1, 3))
