@@ -72,5 +72,4 @@ class Map():
             if command == "map":
                 self.print_map()
                 continue
-            if not self.move(command):
-                break
+            self.move(command)
