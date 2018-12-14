@@ -1,4 +1,5 @@
 from Map import Map
+from Battle import SingleBattle
 from map_functions import MONSTER
 
 
@@ -40,7 +41,9 @@ class MapState(Map):
                 return self.map[self.player_location]
 
 
-class BattleState():
-    def __init__(self, a):
-        pass
-    pass
+class BattleState(SingleBattle):
+    def prompt_move(self):
+        while True:
+            command = input("Your next move: ")
+            if command in ["exit", "e"]:
+                return None

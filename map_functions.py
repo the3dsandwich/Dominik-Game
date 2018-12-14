@@ -1,6 +1,8 @@
+from Unit import Unit
+
 MAP_SIZE = 60
 FIELD = {'display': 'X '}
-MONSTER = {'display': 'M '}
+MONSTER = {'display': 'M ', 'unit': Unit("Monster")}
 ITEM = {'display': 'I '}
 PATH = {'display': '  '}
 LADDER = {'display': 'L '}

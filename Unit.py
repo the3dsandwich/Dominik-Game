@@ -18,5 +18,8 @@ class Unit():
         print(self.name)
         print(f"HP = {self.HP}/{self.MHP}")
         print(f"MP = {self.MP}/{self.MMP}")
+
+    def print_full(self):
+        self.print_status()
         print(self.items)
         print(self.attacks)
