@@ -8,8 +8,10 @@ GameState.push(MS)
 
 while GameState:
     if type(GameState.top()) == MapState:
-        Monster = GameState.top().prompt_move()
-        GameState.push(BattleState())
+        Command = GameState.top().prompt_move()
+        if Command == None:
+            break
+        GameState.push(BattleState(Command))
     else:
         print(GameState)
         break
