@@ -53,8 +53,6 @@ class Map():
                             False, size=self.size) and type(self.map[self.player_location-1]) is not FieldTile else self.player_location
         else:
             return False
-
-        self.print_location(self.player_location)
         return True
 
     def getLocation(self):

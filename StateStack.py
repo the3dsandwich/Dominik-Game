@@ -27,8 +27,8 @@ class Stack:
 class MapState(Map):
     def prompt_move(self):
         # continue prompt move and call self.move() until input invalid
-        self.print_location(self.player_location)
         while True:
+            self.print_location(self.player_location)
             command = input("Your next move: ")
             os.system('clear')
             if command == "map":
