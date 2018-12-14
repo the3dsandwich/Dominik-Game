@@ -1,26 +1,61 @@
-from Unit import Unit
+from Unit import Monster
+from Item import Item
 
 MAP_SIZE = 60
-FIELD = {'display': 'X '}
-MONSTER = {'display': 'M ', 'unit': Unit("Monster")}
-ITEM = {'display': 'I '}
-PATH = {'display': '  '}
-LADDER = {'display': 'L '}
-PLAYER = {'display': 'P '}
-CHOICES = [FIELD, MONSTER, ITEM, PATH]
 DIRECTIONS = {'UP': ['0', 'u', 'up'], 'RIGHT': ['1', 'r', 'right'], 'DOWN': [
     '2', 'd', 'down'], 'LEFT': ['3', 'l', 'left']}
 
 
+class Tile():
+    def __init__(self):
+        self.display = 'E '
+
+
+class FieldTile(Tile):
+    def __init__(self):
+        self.display = 'X '
+
+
+class PathTile(Tile):
+    def __init__(self):
+        self.display = '  '
+
+
+class LadderTile(Tile):
+    def __init__(self):
+        self.display = 'L '
+
+
+class PlayerTile(Tile):
+    def __init__(self):
+        self.display = 'P '
+
+
+class ItemTile(Tile):
+    def __init__(self):
+        self.display = 'I '
+        self.item = Item()
+
+
+class MonsterTile(Tile):
+    def __init__(self):
+        self.display = 'M '
+        self.monster = Monster()
+
+
+def choices():
+    return [FieldTile(), ItemTile(), MonsterTile(), PathTile()]
+
+
 def count_nei(i, g_map, ty, size=MAP_SIZE):
     # return the number of side neighbors (4 directions) that are type ty
-    return len(list(filter(lambda x: is_nei(x, i, False, size=size) and g_map[x] == ty, [i-size-1, i-size, i-size+1, i-1, i+1, i+size-1, i+size, i+size+1])))
+    return len(list(filter(lambda x: is_nei(x, i, False, size=size) and type(g_map[x]) == ty, [i-size-1, i-size, i-size+1, i-1, i+1, i+size-1, i+size, i+size+1])))
 
 
 def set_nei(i, g_map, size=MAP_SIZE):
     # sets all neighbors of i to PATH
     for j in filter(lambda x: is_nei(x, i, size=size), [i-size-1, i-size, i-size+1, i-1, i+1, i+size-1, i+size, i+size+1]):
-        g_map[j] = PATH
+        g_map[j] = PathTile()
 
 
 def is_nei(a, b, alldir=True, size=MAP_SIZE):
@@ -38,7 +73,7 @@ def is_nei(a, b, alldir=True, size=MAP_SIZE):
 def print_map(pm):
     # prints map
     for i in range(pm.size):
-        print("".join([c['display']
+        print("".join([c.display
                        for c in pm.map[i*pm.size: (i+1)*pm.size]]))
 
 
@@ -47,12 +82,14 @@ def print_location(pm, loc):
     print("O "*(pm.p_size+2))
     for i in range(pm.p_size):
         if i == pm.p_size//2:
-            p = pm.map[loc - pm.p_size // 2 + pm.size *
-                       (i - pm.p_size // 2): loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2)+1]
-            p[i] = PLAYER
-            print("O " + "".join([c['display'] for c in p]) + "O")
+            p = pm.map[loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2):
+                       loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2) + 1]
+            p[i] = PlayerTile()
+            print("O " + "".join([c.display for c in p]) + "O")
         else:
             print("O " +
-                  "".join([c['display'] for c in pm.map[loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2): loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2)+1]]) +
+                  "".join([c.display for c in
+                           pm.map[loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2):
+                                  loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2) + 1]]) +
                   "O")
     print("O "*(pm.p_size+2))

@@ -1,6 +1,6 @@
 from Map import Map
 from Battle import SingleBattle
-from map_functions import MONSTER
+from map_functions import MonsterTile
 
 
 class Stack:
@@ -36,7 +36,7 @@ class MapState(Map):
                 return None
             if not self.move(command):
                 print("Wrong command")
-            elif self.map[self.player_location] == MONSTER:
+            elif type(self.map[self.player_location]) == MonsterTile:
                 print("Monster Encounter")
                 return self.map[self.player_location]
 

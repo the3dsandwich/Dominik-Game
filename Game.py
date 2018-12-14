@@ -1,10 +1,10 @@
 from StateStack import Stack, MapState, BattleState
 from Unit import Player
-from map_functions import PATH
+from map_functions import PathTile
 
 # initialize map and player
 MS = MapState(3)
-player = Player("P1", MS.start_location)
+player = Player("P1")
 
 # initialize game State Stack
 GameState = Stack()
@@ -21,7 +21,7 @@ while GameState:
         # move player to location on map
         player.setLocation(GameState.top().getLocation())
         # state transition to battle with monster
-        GameState.push(BattleState(player, Monster['unit']))
+        GameState.push(BattleState(player, Monster.monster))
 
     elif type(GameState.top()) == BattleState:
         # gets battle result (won or not)
@@ -35,7 +35,7 @@ while GameState:
         # you won, state transition back to map
         else:
             GameState.pop()
-            GameState.top().map[player.getLocation()] = PATH
+            GameState.top().map[player.getLocation()] = PathTile()
 
     else:
         break

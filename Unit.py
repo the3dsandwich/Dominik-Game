@@ -34,8 +34,8 @@ class Unit():
 
 
 class Player(Unit):
-    def __init__(self, start_location, name="Unit", MHP=30, MMP=10):
-        Unit.__init__(self, "Player", MHP, MMP)
+    def __init__(self, start_location, name="Player", MHP=30, MMP=10):
+        Unit.__init__(self, name, MHP, MMP)
         self.location = start_location
 
     def setLocation(self, new_location):
@@ -43,3 +43,8 @@ class Player(Unit):
 
     def getLocation(self):
         return self.location
+
+
+class Monster(Unit):
+    def __init__(self, name="Monster", MHP=10, MMP=10):
+        Unit.__init__(self, name, MHP, MMP)

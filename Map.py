@@ -1,17 +1,16 @@
 from map_generator import generate_map
-from map_functions import MAP_SIZE, LADDER, MONSTER, ITEM, FIELD, DIRECTIONS, print_map, print_location, is_nei
+from map_functions import MAP_SIZE, DIRECTIONS, LadderTile, MonsterTile, ItemTile, FieldTile, print_map, print_location, is_nei
 from time import time
 
 
 class Map():
     def __init__(self, seed=time(), size=MAP_SIZE, p_size=5):
-        self.map, self.block_size = generate_map(seed, size)
+        self.map, self.block_size, self.player_location = generate_map(
+            seed, size)
         self.seed = seed
         self.size = size
-        self.start_location = self.map.index(LADDER)
-        self.monsters = self.map.count(MONSTER)
-        self.items = self.map.count(ITEM)
-        self.player_location = self.start_location
+        self.monsters = sum(isinstance(i, MonsterTile) for i in self.map)
+        self.items = sum(isinstance(i, ItemTile) for i in self.map)
         self.p_size = p_size
 
     def print_map(self):
@@ -20,8 +19,6 @@ class Map():
         print(f"SEED    : {self.seed}")
         print(f"SIZE    : {self.size}")
         print(f"BLK SIZE: {self.block_size}")
-        print(
-            f"STARTLOC: ({self.start_location % self.size + 1},{self.start_location // self.size + 1})")
         print(f"MONSTERS: {self.monsters}")
         print(f"ITEMS   : {self.items}")
 
@@ -46,18 +43,18 @@ class Map():
         direction = direction.lower()
         if direction in DIRECTIONS['UP']:
             self.player_location = self.player_location - self.size if is_nei(
-                self.player_location, self.player_location-self.size, False, size=self.size) and self.map[self.player_location-self.size] != FIELD else self.player_location
+                self.player_location, self.player_location-self.size, False, size=self.size) and type(self.map[self.player_location-self.size]) is not FieldTile else self.player_location
         elif direction in DIRECTIONS['RIGHT']:
             self.player_location = self.player_location + \
                 1 if is_nei(self.player_location, self.player_location+1,
-                            False, size=self.size) and self.map[self.player_location+1] != FIELD else self.player_location
+                            False, size=self.size) and type(self.map[self.player_location+1]) is not FieldTile else self.player_location
         elif direction in DIRECTIONS['DOWN']:
             self.player_location = self.player_location + self.size if is_nei(
-                self.player_location, self.player_location+self.size, False, size=self.size) and self.map[self.player_location+self.size] != FIELD else self.player_location
+                self.player_location, self.player_location+self.size, False, size=self.size) and type(self.map[self.player_location+self.size]) is not FieldTile else self.player_location
         elif direction in DIRECTIONS['LEFT']:
             self.player_location = self.player_location - \
                 1 if is_nei(self.player_location, self.player_location-1,
-                            False, size=self.size) and self.map[self.player_location-1] != FIELD else self.player_location
+                            False, size=self.size) and type(self.map[self.player_location-1]) is not FieldTile else self.player_location
         else:
             return False
 
