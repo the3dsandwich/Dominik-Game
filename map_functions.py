@@ -6,6 +6,8 @@ PATH = {'display': '  '}
 LADDER = {'display': 'L '}
 PLAYER = {'display': 'P '}
 CHOICES = [FIELD, MONSTER, ITEM, PATH]
+DIRECTIONS = {'UP': ['0', 'u', 'up'], 'RIGHT': ['1', 'r', 'right'], 'DOWN': [
+    '2', 'd', 'down'], 'LEFT': ['3', 'l', 'left']}
 
 
 def count_nei(i, g_map, ty, size=MAP_SIZE):

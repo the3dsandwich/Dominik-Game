@@ -1,5 +1,5 @@
 from map_generator import generate_map
-from map_functions import MAP_SIZE, LADDER, MONSTER, ITEM, FIELD, print_map, print_location, is_nei
+from map_functions import MAP_SIZE, LADDER, MONSTER, ITEM, FIELD, DIRECTIONS, print_map, print_location, is_nei
 from time import time
 
 
@@ -43,28 +43,34 @@ class Map():
         # 1 is right
         # 2 is down
         # 3 is left
-        if direction not in ["0", "1", "2", "3"]:
-            return False
-        direction = int(direction)
-        if direction == 0:
+        direction = direction.lower()
+        if direction in DIRECTIONS['UP']:
             self.player_location = self.player_location - self.size if is_nei(
                 self.player_location, self.player_location-self.size, False, size=self.size) and self.map[self.player_location-self.size] != FIELD else self.player_location
-        if direction == 1:
+        elif direction in DIRECTIONS['RIGHT']:
             self.player_location = self.player_location + \
                 1 if is_nei(self.player_location, self.player_location+1,
                             False, size=self.size) and self.map[self.player_location+1] != FIELD else self.player_location
-        if direction == 2:
+        elif direction in DIRECTIONS['DOWN']:
             self.player_location = self.player_location + self.size if is_nei(
                 self.player_location, self.player_location+self.size, False, size=self.size) and self.map[self.player_location+self.size] != FIELD else self.player_location
-        if direction == 3:
+        elif direction in DIRECTIONS['LEFT']:
             self.player_location = self.player_location - \
                 1 if is_nei(self.player_location, self.player_location-1,
                             False, size=self.size) and self.map[self.player_location-1] != FIELD else self.player_location
+        else:
+            return False
+
         self.print_location(self.player_location)
         return True
 
     def prompt_move(self):
         # continue prompt move and call self.move() until input invalid
         self.print_location(self.player_location)
-        while self.move(input("Your next move: ")):
-            continue
+        while True:
+            command = input("Your next move: ")
+            if command == "map":
+                self.print_map()
+                continue
+            if not self.move(command):
+                break
