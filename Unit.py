@@ -1,10 +1,10 @@
 class Unit():
-    def __init__(self, name="Unknown"):
+    def __init__(self, name="Unit", MHP=10, MMP=10):
         self.name = name
-        self.HP = 10
-        self.MP = 10
-        self.MHP = 10
-        self.MMP = 10
+        self.HP = MHP
+        self.MP = MMP
+        self.MHP = MHP
+        self.MMP = MMP
         self.items = []
         self.attacks = []
 
@@ -31,3 +31,15 @@ class Unit():
         self.print_status()
         print(self.items)
         print(self.attacks)
+
+
+class Player(Unit):
+    def __init__(self, start_location, name="Unit", MHP=30, MMP=10):
+        Unit.__init__(self, "Player", MHP, MMP)
+        self.location = start_location
+
+    def setLocation(self, new_location):
+        self.location = new_location
+
+    def getLocation(self):
+        return self.location

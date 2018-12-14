@@ -15,4 +15,4 @@ class SingleBattle():
         acting = self.unit2 if acting_unit == 2 else self.unit1
         target = self.unit1 if acting == self.unit2 else self.unit2
         # to be changed, only basic attacking
-        target.setHP(target.getHP - random.randint(1, 3))
+        target.setHP(target.getHP() - random.randint(1, 3))

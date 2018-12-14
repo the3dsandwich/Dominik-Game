@@ -63,3 +63,6 @@ class Map():
 
         self.print_location(self.player_location)
         return True
+
+    def getLocation(self):
+        return self.player_location

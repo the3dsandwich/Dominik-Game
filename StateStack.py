@@ -44,6 +44,18 @@ class MapState(Map):
 class BattleState(SingleBattle):
     def prompt_move(self):
         while True:
+            self.print_status()
             command = input("Your next move: ")
             if command in ["exit", "e"]:
-                return None
+                return False
+            if command in ["attack", "a"]:
+                self.make_move(None, 1)
+                self.make_move(None, 2)
+                if self.unit1.getHP() == 0:
+                    # You lost
+                    self.print_status()
+                    return False
+                if self.unit2.getHP() == 0:
+                    # You won
+                    self.print_status()
+                    return True
