@@ -1,4 +1,4 @@
-from StateStack import *
+from StateStack import Stack, MapState, BattleState
 
 MS = MapState(10)
 

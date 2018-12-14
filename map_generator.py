@@ -1,5 +1,5 @@
 import random
-from map_functions import *
+from map_functions import MAP_SIZE, FIELD, MONSTER, ITEM, PATH, LADDER, CHOICES, DIRECTIONS, count_nei, set_nei, is_nei, print_map, print_location
 
 
 def generate_map(seed, size=MAP_SIZE):
