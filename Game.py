@@ -1,6 +1,7 @@
 from StateStack import Stack, MapState, BattleState
 from Unit import Player
 from map_functions import PathTile, MonsterTile
+import os
 
 # initialize map and player
 MS = MapState(3)
@@ -11,7 +12,10 @@ GameState = Stack()
 # top is map state
 GameState.push(MS)
 
+
 while GameState:
+    os.system('clear')
+
     if type(GameState.top()) == MapState:
         # returns the class of event (either item or monster)
         event_tile = GameState.top().prompt_move()
@@ -27,11 +31,8 @@ while GameState:
     elif type(GameState.top()) == BattleState:
         # returns battle result (won or not)
         Won = GameState.top().prompt_move()
-        # print current player status
-        player.print_status()
         # you lost, exit
         if Won == False:
-            print("You Fainted")
             break
         # you won, state transition back to map
         else:

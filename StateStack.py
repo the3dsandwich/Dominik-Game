@@ -1,6 +1,7 @@
 from Map import Map
 from Battle import SingleBattle
 from map_functions import MonsterTile
+import os
 
 
 class Stack:
@@ -29,14 +30,15 @@ class MapState(Map):
         self.print_location(self.player_location)
         while True:
             command = input("Your next move: ")
+            os.system('clear')
             if command == "map":
                 # display full map
                 self.print_map()
                 continue
-            if command in ["exit", "e"]:
+            elif command in ["exit", "e"]:
                 # exit
                 return None
-            if not self.move(command):
+            elif not self.move(command):
                 # not valid direction command
                 print("Wrong command")
             elif type(self.map[self.player_location]) == MonsterTile:
@@ -49,16 +51,24 @@ class BattleState(SingleBattle):
         while True:
             self.print_status()
             command = input("Your next move: ")
+            os.system('clear')
             if command in ["exit", "e"]:
+                # You escaped
                 return False
-            if command in ["attack", "a"]:
+            elif command in ["attack", "a"]:
                 self.make_move(None, 1)
                 self.make_move(None, 2)
                 if self.unit1.getHP() == 0:
                     # You lost
                     self.print_status()
+                    print("You fainted")
                     return False
                 if self.unit2.getHP() == 0:
                     # You won
-                    self.print_status()
+                    print("You won!")
+                    self.unit1.print_status()
+                    input("(confirm)")
+                    os.system('clear')
                     return True
+            else:
+                print("Wrong command")
