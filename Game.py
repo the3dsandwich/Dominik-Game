@@ -1,4 +1,15 @@
-from Map import Map
+from StateStack import *
 
-a = Map(10)
-a.prompt_move()
+MS = MapState(10)
+
+GameState = Stack()
+
+GameState.push(MS)
+
+while GameState:
+    if type(GameState.top()) == MapState:
+        Monster = GameState.top().prompt_move()
+        GameState.push(BattleState())
+    else:
+        print(GameState)
+        break

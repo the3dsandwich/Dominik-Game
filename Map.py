@@ -72,4 +72,10 @@ class Map():
             if command == "map":
                 self.print_map()
                 continue
-            self.move(command)
+            if command in ["exit", "e"]:
+                break
+            if not self.move(command):
+                print("Wrong command")
+            elif self.map[self.player_location] == MONSTER:
+                print("Monster Encounter")
+                return self.map[self.player_location]
