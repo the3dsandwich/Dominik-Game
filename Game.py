@@ -12,7 +12,6 @@ GameState = Stack()
 # top is map state
 GameState.push(MS)
 
-
 while GameState:
     os.system('clear')
 
@@ -39,6 +38,7 @@ while GameState:
             GameState.pop()
             # delete current monster
             GameState.top().map[player.getLocation()] = PathTile()
+            GameState.top().monsters -= 1
 
     else:
         break

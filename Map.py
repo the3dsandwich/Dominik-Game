@@ -18,16 +18,12 @@ class Map():
         print_map(self)
         print(f"SEED    : {self.seed}")
         print(f"SIZE    : {self.size}")
-        print(f"BLK SIZE: {self.block_size}")
         print(f"MONSTERS: {self.monsters}")
         print(f"ITEMS   : {self.items}")
 
     def print_location(self, loc):
         # prints what player can see in current location and other info
         print_location(self, loc)
-        print(f"SEED    : {self.seed}")
-        print(f"MONSTERS: {self.monsters}")
-        print(f"ITEMS   : {self.items}")
 
     def set_p_size(self, p_size):
         # sets print_location seeing size
