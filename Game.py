@@ -1,6 +1,7 @@
 from StateStack import Stack, MapState, BattleState
 from Unit import Player
 from map_functions import PathTile
+from Unit import Monster
 
 # initialize map and player
 MS = MapState(3)
@@ -13,18 +14,19 @@ GameState.push(MS)
 
 while GameState:
     if type(GameState.top()) == MapState:
-        # prompy_move() returns monster
-        Monster = GameState.top().prompt_move()
-        # exit by breaking
-        if Monster == None:
-            break
-        # move player to location on map
+        # returns the class of event (either item or monster)
+        event_tile = GameState.top().prompt_move()
+        # move player to current location on map
         player.setLocation(GameState.top().getLocation())
-        # state transition to battle with monster
-        GameState.push(BattleState(player, Monster.monster))
+        # exit by breaking
+        if event_tile == None:
+            break
+        # transition to battle if monster encounter
+        if type(event_tile) == Monster:
+            GameState.push(BattleState(player, event_tile.monster))
 
     elif type(GameState.top()) == BattleState:
-        # gets battle result (won or not)
+        # returns battle result (won or not)
         Won = GameState.top().prompt_move()
         # print current player status
         player.print_status()
@@ -35,6 +37,7 @@ while GameState:
         # you won, state transition back to map
         else:
             GameState.pop()
+            # delete current monster
             GameState.top().map[player.getLocation()] = PathTile()
 
     else:
