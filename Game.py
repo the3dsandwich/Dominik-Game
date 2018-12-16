@@ -44,7 +44,9 @@ while GameState:
             GameState.top().monsters -= 1
 
     elif type(GameState.top()) == ItemState:
-        input("ITEM STATE TRIGGERED")
+        input("Healed!")
+        player.print_status()
+        player.setHP(player.getHP() + 30)
         GameState.pop()
         # delete current item
         GameState.top().map[player.getLocation()] = PathTile()

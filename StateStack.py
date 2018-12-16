@@ -60,8 +60,10 @@ class MapState(Map):
 
 class BattleState(SingleBattle):
     def prompt_move(self):
+        # continue to prompt move until win or lose
         input("Enter Battle!")
         while True:
+            # print both party's statue
             self.print_status()
             command = input("Your next move: ")
             os.system('clear')
@@ -69,7 +71,10 @@ class BattleState(SingleBattle):
                 # You escaped
                 return False
             elif command in ["attack", "a", ""]:
+                # normal attack
+                # unit one moves with None move
                 self.make_move(None, 1)
+                # unit two moves with None move
                 self.make_move(None, 2)
                 if self.unit1.getHP() == 0:
                     # You lost
