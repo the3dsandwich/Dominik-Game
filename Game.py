@@ -3,9 +3,9 @@ from Unit import Player
 from map_functions import PathTile, MonsterTile, ItemTile
 import os
 
-# initialize map and player
-MS = MapState(3)
+# initialize player and map
 player = Player("P1")
+MS = MapState(3, player)
 
 # initialize game State Stack
 GameState = Stack()

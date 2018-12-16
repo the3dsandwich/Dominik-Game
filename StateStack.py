@@ -2,6 +2,7 @@ from Map import Map
 from Battle import SingleBattle
 from map_functions import MonsterTile, ItemTile
 import os
+import time
 
 
 class Stack:
@@ -25,6 +26,10 @@ class Stack:
 
 
 class MapState(Map):
+    def __init__(self, seed=time.time(), player=None):
+        Map.__init__(self, seed=seed)
+        self.player = player
+
     def prompt_move(self):
         # continue prompt move and call self.move() until input invalid
         while True:
@@ -34,6 +39,10 @@ class MapState(Map):
             if command == "map":
                 # display full map
                 self.print_map()
+                continue
+            elif command in ['player', "p"]:
+                # display player status
+                self.player.print_status()
                 continue
             elif command in ["exit", "e"]:
                 # exit
