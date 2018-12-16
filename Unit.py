@@ -32,6 +32,16 @@ class Player(Unit):
     def __init__(self, start_location, name="Player", MHP=30, MMP=10):
         Unit.__init__(self, name, MHP, MMP)
         self.location = start_location
+        self.monster_defeated = 0
+
+    def setMD(self):
+        self.monster_defeated += 1
+
+    def getMD(self):
+        return self.monster_defeated
+
+    def getScore(self):
+        return self.monster_defeated * 100 + len(self.items) * 10
 
     def setLocation(self, new_location):
         self.location = new_location
@@ -59,6 +69,8 @@ class Player(Unit):
         self.print_status()
         self.print_items()
         self.print_attacks()
+        print(f"Defeated monsters: {self.getMD()}")
+        print("Score:", self.getScore())
 
 
 class Monster(Unit):

@@ -122,9 +122,9 @@ class BattleState(State, SingleBattle):
                 input("")
                 os.system('clear')
                 input("oops!")
-                os.system('clear')
                 # wait for player Confirm
                 input("You fainted")
+                input("Score:", self.p.getScore())
                 os.system("clear")
                 # return result
                 return "lost"
@@ -138,6 +138,8 @@ class BattleState(State, SingleBattle):
                 # delete Monster from map
                 self.m.map[self.m.player_location] = PathTile()
                 self.m.monsters -= 1
+                # set defeated monster count for player
+                self.p.setMD()
                 # return result
                 return "won"
         else:
@@ -244,7 +246,7 @@ class InfoState(State):
             "the items you can pick up.",
             "When you've defeated all monsters in a floor, you",
             "may return to the ladder (indicated by 'L') to go up",
-            "to the next floor."
+            "to the next floor.",
             "=====================================================",
             "things you may want to remember:",
             "up/u        goes up",
@@ -254,7 +256,7 @@ class InfoState(State):
             "player/p    brings up your character status",
             "item/i      brings up your inventory",
             "help/h      brings up this info page",
-            "exit/e      exits pretty much anywhere"
+            "exit/e      exits pretty much anywhere\n"
         ]
         for i in information_text:
             print(i)
