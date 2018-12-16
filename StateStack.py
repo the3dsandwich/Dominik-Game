@@ -217,6 +217,7 @@ class PlayerViewState(State):
 
 class StartViewState(State):
     def __init__(self):
+        os.system('clear')
         title_text = [
             "=======================",
             "=                     =",
