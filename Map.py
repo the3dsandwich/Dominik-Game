@@ -4,7 +4,7 @@ from time import time
 
 
 class Map():
-    def __init__(self, seed=time(), size=MAP_SIZE, p_size=5):
+    def __init__(self, seed=time(), size=MAP_SIZE, p_size=7):
         self.map, self.block_size, self.player_location = generate_map(
             seed, size)
         self.seed = seed

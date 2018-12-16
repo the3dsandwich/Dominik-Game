@@ -81,15 +81,14 @@ def print_location(pm, loc):
     # prints what player can see at given location
     print("O "*(pm.p_size+2))
     for i in range(pm.p_size):
+        p = []
+        for j in range(loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2),
+                       loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2) + 1):
+            if 0 <= j < pm.size**2 and 0 <= j-(loc//pm.size - pm.p_size//2 + i)*pm.size < pm.size:
+                p.append(pm.map[j])
+            else:
+                p.append(FieldTile())
         if i == pm.p_size//2:
-            p = pm.map[loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2):
-                       loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2) + 1]
             p[i] = PlayerTile()
-            print("O " + "".join([c.display for c in p]) + "O")
-        else:
-            print("O " +
-                  "".join([c.display for c in
-                           pm.map[loc - pm.p_size // 2 + pm.size * (i - pm.p_size // 2):
-                                  loc + pm.p_size // 2 + pm.size * (i - pm.p_size // 2) + 1]]) +
-                  "O")
+        print("O " + "".join([c.display for c in p]) + "O")
     print("O "*(pm.p_size+2))
