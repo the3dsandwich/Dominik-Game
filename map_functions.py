@@ -1,5 +1,5 @@
 from Unit import Monster
-from Item import Item
+from Item import HealItem
 
 MAP_SIZE = 60
 DIRECTIONS = {'UP': ['0', 'u', 'up'], 'RIGHT': ['1', 'r', 'right'], 'DOWN': [
@@ -34,7 +34,7 @@ class PlayerTile(Tile):
 class ItemTile(Tile):
     def __init__(self):
         self.display = 'I '
-        self.item = Item()
+        self.item = HealItem()
 
 
 class MonsterTile(Tile):

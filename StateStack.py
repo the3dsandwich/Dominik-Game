@@ -1,6 +1,7 @@
 from Map import Map
 from Battle import SingleBattle
-from map_functions import MonsterTile, ItemTile, PathTile
+from map_functions import MonsterTile, ItemTile, PathTile, LadderTile
+from Item import HealItem
 import os
 import time
 
@@ -38,16 +39,21 @@ class State():
             self.print_status()
             command = input("Your next move: ")
             command = command.lower()
-            os.system('clear')
+            os.system("clear")
             if command in ["map", "m"]:
                 # transition to MapViewState
                 return "map"
-            elif command in ['player', "p"]:
+            elif command in ["player", "p"]:
                 # transition to PlayerViewState
                 return "player"
+            elif command in ["item", "i"]:
+                # transition to ItemState
+                return "item"
             elif command in ["exit", "e"]:
                 # exit
                 return "exit"
+            elif command in ['help', 'h']:
+                return "help"
             else:
                 result = self.do_action(command)
                 if result != None:
@@ -72,10 +78,19 @@ class MapState(State, Map):
         if type(self.m.map[self.m.player_location]) == MonsterTile:
             # return monster tile
             return self.m.map[self.m.player_location]
+        if type(self.m.map[self.m.player_location]) == LadderTile:
+            # return ladder tile
+            return self.m.map[self.m.player_location]
         elif type(self.m.map[self.m.player_location]) == ItemTile:
-            # add item to player.items and delete current item from map
+            # add item to player.items list
             self.p.items.append(self.m.map[self.m.player_location].item)
-            # print(f"Got {self.map[self.player_location].item.name)}")
+            # wait for player Confirm
+            input(
+                f"Got {self.m.map[self.m.player_location].item.name}")
+            os.system("clear")
+            # delete Item from map
+            self.m.map[self.m.player_location] = PathTile()
+            self.m.items -= 1
         return None
 
 
@@ -83,11 +98,11 @@ class BattleState(State, SingleBattle):
     def __init__(self, unit1, unit2, m):
         State.__init__(self, unit1, m)
         SingleBattle.__init__(self, unit1, unit2)
+        input("Battle!")
+        os.system("clear")
 
     def prompt_move(self):
         # continue to prompt move until win or lose
-        input("Battle!")
-        os.system('clear')
         return State.prompt_move(self)
 
     def print_status(self):
@@ -100,19 +115,30 @@ class BattleState(State, SingleBattle):
             self.make_move(None, 1)
             # unit two moves with None move
             self.make_move(None, 2)
+            # You lost
             if self.unit1.getHP() == 0:
-                # You lost
+                # print both status
                 self.print_status()
-                print("You fainted")
-                return "lost"
-            if self.unit2.getHP() == 0:
-                # You won
-                print("You won!")
-                self.unit1.print_status()
-                input("(confirm)")
+                input("")
                 os.system('clear')
+                input("oops!")
+                os.system('clear')
+                # wait for player Confirm
+                input("You fainted")
+                os.system("clear")
+                # return result
+                return "lost"
+            # You won
+            if self.unit2.getHP() == 0:
+                # print player status
+                self.unit1.print_status()
+                # wait for player Confirm
+                input("You won!")
+                os.system("clear")
+                # delete Monster from map
                 self.m.map[self.m.player_location] = PathTile()
                 self.m.monsters -= 1
+                # return result
                 return "won"
         else:
             print("Wrong command")
@@ -120,13 +146,51 @@ class BattleState(State, SingleBattle):
 
 
 class ItemState(State):
-    def __init__(self, player, item):
-        self.player = player
-        self.item = item
+    def __init__(self, p, m):
+        State.__init__(self, p, m)
 
     def prompt_move(self):
-        self.player.print_full()
-        input("use item?")
+        if self.p.items == []:
+            input("No items to use!")
+        else:
+            while True:
+                self.p.print_status()
+                self.p.print_items()
+                command = input("Use which item (index)? ")
+                try:
+                    item_index = int(command) - 1
+                    if item_index > len(self.p.items):
+                        raise Exception()
+                except:
+                    if command in ["exit", "e", ""]:
+                        # exit
+                        return "exit"
+                    os.system("clear")
+                    input("wrong index!")
+                    os.system("clear")
+                    continue
+                command = input(
+                    f"Are you sure you want to use {self.p.items[item_index].name}? (y/n) ")
+                if command in ["yes", "y", ""]:
+                    item_using = self.p.items[item_index]
+                    os.system("clear")
+                    self.do_action(item_using)
+                    return 0
+                else:
+                    if command in ["exit", "e"]:
+                        # exit
+                        return "exit"
+                    os.system("clear")
+                    continue
+
+    def do_action(self, item_using):
+        if type(item_using) == HealItem:
+            self.p.setHP(self.p.getHP() + item_using.heal)
+            self.p.items.remove(item_using)
+            self.p.print_status()
+            self.p.print_items()
+            input("Healed!")
+            os.system("clear")
 
 
 class MapViewState(State):
@@ -136,7 +200,7 @@ class MapViewState(State):
     def prompt_move(self):
         # prints full map and exits
         self.m.print_map()
-        input('(Confirm)')
+        input("")
         return None
 
 
@@ -147,5 +211,52 @@ class PlayerViewState(State):
     def prompt_move(self):
         # prints full map and exits
         self.p.print_full()
-        input('(Confirm)')
+        input("")
+        return None
+
+
+class StartViewState(State):
+    def __init__(self):
+        title_text = [
+            "=======================",
+            "=                     =",
+            "=       DOMINIK       =",
+            "=                     =",
+            "======================="
+        ]
+        for i in title_text:
+            print(i)
+        self.player_nane = input("= WHAT'S YOUR NAME =\n\n")
+        os.system('clear')
+
+
+class InfoState(State):
+    def __init__(self, p):
+        State.__init__(self, p, None)
+
+    def prompt_move(self):
+        information_text = [
+            f"Welcome, {self.p.name}!",
+            "In this dungeon exploring game you're required to",
+            "defeat all monsters on each floor. 'M' indicates",
+            "the monsters you are required to defeat, and 'I' are",
+            "the items you can pick up.",
+            "When you've defeated all monsters in a floor, you",
+            "may return to the ladder (indicated by 'L') to go up",
+            "to the next floor."
+            "=====================================================",
+            "things you may want to remember:",
+            "up/u        goes up",
+            "down/d      goes down",
+            "left/l      goes left",
+            "right/r     goes right",
+            "player/p    brings up your character status",
+            "item/i      brings up your inventory",
+            "help/h      brings up this info page",
+            "exit/e      exits pretty much anywhere"
+        ]
+        for i in information_text:
+            print(i)
+        input("Enjoy!")
+        os.system('clear')
         return None

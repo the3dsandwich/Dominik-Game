@@ -27,11 +27,6 @@ class Unit():
         print(f"HP = {self.HP}/{self.MHP}")
         print(f"MP = {self.MP}/{self.MMP}")
 
-    def print_full(self):
-        self.print_status()
-        print("Items:", self.items)
-        print("Attacks:", self.attacks)
-
 
 class Player(Unit):
     def __init__(self, start_location, name="Player", MHP=30, MMP=10):
@@ -43,6 +38,27 @@ class Player(Unit):
 
     def getLocation(self):
         return self.location
+
+    def print_items(self):
+        print("Items:")
+        if self.items != []:
+            for index, i in enumerate(self.items):
+                print(f"  {index+1}: {i}")
+        else:
+            print("  None")
+
+    def print_attacks(self):
+        print("Attacks:")
+        if self.attacks != []:
+            for index, a in enumerate(self.attacks):
+                print(f"  {index+1}: {a}")
+        else:
+            print("  None")
+
+    def print_full(self):
+        self.print_status()
+        self.print_items()
+        self.print_attacks()
 
 
 class Monster(Unit):

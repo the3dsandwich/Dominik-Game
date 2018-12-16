@@ -16,7 +16,6 @@ class Map():
     def print_map(self):
         # prints whole map
         print_map(self)
-        print(f"SEED    : {self.seed}")
         print(f"SIZE    : {self.size}")
         print(f"MONSTERS: {self.monsters}")
         print(f"ITEMS   : {self.items}")
