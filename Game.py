@@ -1,6 +1,6 @@
-from StateStack import Stack, MapState, BattleState
+from StateStack import Stack, MapState, BattleState, ItemState
 from Unit import Player
-from map_functions import PathTile, MonsterTile
+from map_functions import PathTile, MonsterTile, ItemTile
 import os
 
 # initialize map and player
@@ -26,6 +26,9 @@ while GameState:
         # transition to battle if monster encounter
         if type(event_tile) == MonsterTile:
             GameState.push(BattleState(player, event_tile.monster))
+        # transition to item if item tile
+        if type(event_tile) == ItemTile:
+            GameState.push(ItemState())
 
     elif type(GameState.top()) == BattleState:
         # returns battle result (won or not)
@@ -39,6 +42,13 @@ while GameState:
             # delete current monster
             GameState.top().map[player.getLocation()] = PathTile()
             GameState.top().monsters -= 1
+
+    elif type(GameState.top()) == ItemState:
+        input("ITEM STATE TRIGGERED")
+        GameState.pop()
+        # delete current item
+        GameState.top().map[player.getLocation()] = PathTile()
+        GameState.top().items -= 1
 
     else:
         break

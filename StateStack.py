@@ -1,6 +1,6 @@
 from Map import Map
 from Battle import SingleBattle
-from map_functions import MonsterTile
+from map_functions import MonsterTile, ItemTile
 import os
 
 
@@ -44,10 +44,14 @@ class MapState(Map):
             elif type(self.map[self.player_location]) == MonsterTile:
                 # return current tile
                 return self.map[self.player_location]
+            elif type(self.map[self.player_location]) == ItemTile:
+                # return current tile
+                return self.map[self.player_location]
 
 
 class BattleState(SingleBattle):
     def prompt_move(self):
+        input("Enter Battle!")
         while True:
             self.print_status()
             command = input("Your next move: ")
@@ -55,7 +59,7 @@ class BattleState(SingleBattle):
             if command in ["exit", "e"]:
                 # You escaped
                 return False
-            elif command in ["attack", "a"]:
+            elif command in ["attack", "a", ""]:
                 self.make_move(None, 1)
                 self.make_move(None, 2)
                 if self.unit1.getHP() == 0:
@@ -72,3 +76,9 @@ class BattleState(SingleBattle):
                     return True
             else:
                 print("Wrong command")
+
+
+class ItemState():
+    def __init__(self):
+        print("yay")
+    pass
