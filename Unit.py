@@ -74,5 +74,5 @@ class Player(Unit):
 
 
 class Monster(Unit):
-    def __init__(self, name="Monster", MHP=10, MMP=10):
+    def __init__(self, name="Goblin", MHP=10, MMP=10):
         Unit.__init__(self, name, MHP, MMP)
