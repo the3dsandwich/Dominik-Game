@@ -7,7 +7,7 @@ class SingleBattle():
         self.unit1 = unit1
         self.unit2 = unit2
 
-    def print_status(self):
+    def print_health(self):
         self.unit1.print_status()
         self.unit2.print_status()
 

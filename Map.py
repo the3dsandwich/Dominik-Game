@@ -36,7 +36,6 @@ class Map():
         # 1 is right
         # 2 is down
         # 3 is left
-        direction = direction.lower()
         if direction in DIRECTIONS['UP']:
             self.player_location = self.player_location - self.size if is_nei(
                 self.player_location, self.player_location-self.size, False, size=self.size) and type(self.map[self.player_location-self.size]) is not FieldTile else self.player_location

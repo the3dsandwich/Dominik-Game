@@ -1,11 +1,13 @@
-from StateStack import Stack, MapState, BattleState, ItemState
+from StateStack import Stack, MapState, BattleState, ItemState, MapViewState, PlayerViewState
 from Unit import Player
+from Map import Map
 from map_functions import PathTile, MonsterTile, ItemTile
 import os
 
 # initialize player and map
 player = Player("P1")
-MS = MapState(3, player)
+game_map = Map(3)
+MS = MapState(player, game_map)
 
 # initialize game State Stack
 GameState = Stack()
@@ -17,40 +19,53 @@ while GameState:
 
     if type(GameState.top()) == MapState:
         # returns the class of event (either item or monster)
-        event_tile = GameState.top().prompt_move()
-        # move player to current location on map
-        player.setLocation(GameState.top().getLocation())
+        result = GameState.top().prompt_move()
         # exit by breaking
-        if event_tile == None:
+        if result == "exit":
             break
+        # transition to PlayerViewState if 'player' command
+        if result == "player":
+            GameState.push(PlayerViewState(player))
+        # transition to MapViewState if 'map' command
+        if result == "map":
+            GameState.push(MapViewState(game_map))
         # transition to battle if monster encounter
-        if type(event_tile) == MonsterTile:
-            GameState.push(BattleState(player, event_tile.monster))
-        # transition to item if item tile
-        if type(event_tile) == ItemTile:
-            GameState.push(ItemState())
+        if type(result) == MonsterTile:
+            GameState.push(BattleState(player, result.monster, game_map))
+        # transition to item if item command
+        if type(result) == ItemTile:
+            GameState.push(ItemState(player, result.item))
 
     elif type(GameState.top()) == BattleState:
         # returns battle result (won or not)
-        Won = GameState.top().prompt_move()
+        result = GameState.top().prompt_move()
+        # exit by breaking
+        if result == "exit":
+            break
+        # transition to PlayerViewState if 'player' command
+        if result == "player":
+            GameState.push(PlayerViewState(player))
+        # transition to MapViewState if 'map' command
+        if result == "map":
+            GameState.push(MapViewState(game_map))
         # you lost, exit
-        if Won == False:
+        if result == "lost":
             break
         # you won, state transition back to map
-        else:
+        if result == "won":
             GameState.pop()
-            # delete current monster
-            GameState.top().map[player.getLocation()] = PathTile()
-            GameState.top().monsters -= 1
 
     elif type(GameState.top()) == ItemState:
-        input("Healed!")
-        player.print_status()
-        player.setHP(player.getHP() + 30)
+        GameState.top().prompt_move()
         GameState.pop()
-        # delete current item
-        GameState.top().map[player.getLocation()] = PathTile()
-        GameState.top().items -= 1
+
+    elif type(GameState.top()) == MapViewState:
+        GameState.top().prompt_move()
+        GameState.pop()
+
+    elif type(GameState.top()) == PlayerViewState:
+        GameState.top().prompt_move()
+        GameState.pop()
 
     else:
         break

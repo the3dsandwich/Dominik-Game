@@ -29,8 +29,8 @@ class Unit():
 
     def print_full(self):
         self.print_status()
-        print(self.items)
-        print(self.attacks)
+        print("Items:", self.items)
+        print("Attacks:", self.attacks)
 
 
 class Player(Unit):
