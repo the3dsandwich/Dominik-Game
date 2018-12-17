@@ -121,7 +121,7 @@ class BattleState(State, SingleBattle):
                 input("oops!")
                 # wait for player Confirm
                 input("You fainted")
-                input("Score:", self.p.getScore())
+                input(f"Score: {self.p.getScore()}")
                 os.system("clear")
                 # return result
                 return "lost"

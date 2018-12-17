@@ -92,3 +92,8 @@ def print_location(pm, loc):
             p[i] = PlayerTile()
         print("O " + "".join([c.display for c in p]) + "O")
     print("O "*(pm.p_size+2))
+
+
+def print_status(pm):
+    print(f"Monsters: {pm.monsters}")
+    print(f"Items:    {pm.items}")

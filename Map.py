@@ -1,5 +1,5 @@
 from map_generator import generate_map
-from map_functions import MAP_SIZE, DIRECTIONS, LadderTile, MonsterTile, ItemTile, FieldTile, print_map, print_location, is_nei
+from map_functions import MAP_SIZE, DIRECTIONS, LadderTile, MonsterTile, ItemTile, FieldTile, print_map, print_location, is_nei, print_status
 from time import time
 
 
@@ -23,6 +23,7 @@ class Map():
     def print_location(self, loc):
         # prints what player can see in current location and other info
         print_location(self, loc)
+        print_status(self)
 
     def set_p_size(self, p_size):
         # sets print_location seeing size
