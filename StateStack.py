@@ -52,7 +52,7 @@ class State():
             elif command in ["exit", "e"]:
                 # exit
                 return "exit"
-            elif command in ['help', 'h']:
+            elif command in ["help", "h"]:
                 return "help"
             else:
                 result = self.do_action(command)
@@ -74,7 +74,8 @@ class MapState(State, Map):
     def do_action(self, command):
         if not self.m.move(command):
             # not valid direction command
-            print("Wrong command")
+            input("Wrong command!")
+            os.system("clear")
         if type(self.m.map[self.m.player_location]) == MonsterTile:
             # return monster tile
             return self.m.map[self.m.player_location]
@@ -101,10 +102,6 @@ class BattleState(State, SingleBattle):
         input("Battle!")
         os.system("clear")
 
-    def prompt_move(self):
-        # continue to prompt move until win or lose
-        return State.prompt_move(self)
-
     def print_status(self):
         self.print_health()
 
@@ -120,7 +117,7 @@ class BattleState(State, SingleBattle):
                 # print both status
                 self.print_status()
                 input("")
-                os.system('clear')
+                os.system("clear")
                 input("oops!")
                 # wait for player Confirm
                 input("You fainted")
@@ -143,7 +140,8 @@ class BattleState(State, SingleBattle):
                 # return result
                 return "won"
         else:
-            print("Wrong command")
+            input("Wrong command")
+            os.system("clear")
         return None
 
 
@@ -219,7 +217,7 @@ class PlayerViewState(State):
 
 class StartViewState(State):
     def __init__(self):
-        os.system('clear')
+        os.system("clear")
         title_text = [
             "=======================",
             "=                     =",
@@ -230,7 +228,7 @@ class StartViewState(State):
         for i in title_text:
             print(i)
         self.player_nane = input("= WHAT'S YOUR NAME =\n\n")
-        os.system('clear')
+        os.system("clear")
 
 
 class InfoState(State):
@@ -261,5 +259,5 @@ class InfoState(State):
         for i in information_text:
             print(i)
         input("Enjoy!")
-        os.system('clear')
+        os.system("clear")
         return None
