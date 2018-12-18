@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import generateMap from "./StateStack/Map/generateMap";
+import generateMap, { isNei, FieldTile } from "./StateStack/Map/generateMap";
 import MapViewState from "./StateStack/Map/MapViewState";
-import LocMapCard from "./StateStack/Map/LocMapCard";
-import { Button } from "@material-ui/core";
+import MapState from "./StateStack/Map/MapState";
+import { Button, Grid } from "@material-ui/core";
 
 class App extends Component {
   constructor(props) {
@@ -24,36 +24,65 @@ class App extends Component {
     this.setState({ map }, console.log(this.state.map));
   };
 
-  move = () => {
-    let k = this.state.map;
-    k.playerLoc += 1;
-    this.setState({ map: k });
+  handleMoveClick = id => {
+    this.move(id);
+  };
+
+  move = direction => {
+    let map = this.state.map;
+    let playerLoc = map.playerLoc;
+    let comparTil;
+    switch (direction) {
+      case 0:
+        comparTil = map.map[playerLoc - map.size];
+        break;
+      case 1:
+        comparTil = map.map[playerLoc + 1];
+        break;
+      case 2:
+        comparTil = map.map[playerLoc + map.size];
+        break;
+      case 3:
+        comparTil = map.map[playerLoc - 1];
+        break;
+      default:
+        comparTil = new FieldTile(0);
+        break;
+    }
+    const newPlayerLoc =
+      isNei(playerLoc, comparTil.loc, false, map.size) &&
+      !(comparTil instanceof FieldTile)
+        ? comparTil.loc
+        : playerLoc;
+    map.playerLoc = newPlayerLoc;
+    this.setState({ map });
   };
 
   render() {
     return (
-      <div>
-        <LocMapCard map={this.state.map} />
+      <Grid container justify="center" xs={12} spacing={16}>
+        <Grid item xs={12}>
+          <MapState map={this.state.map} handleMove={this.handleMoveClick} />
+        </Grid>
         <MapViewState
           open={this.state.mapopen}
           map={this.state.map}
           onClose={() => this.setState({ mapopen: !this.state.mapopen })}
         />
-        <Button
-          fullWidth
-          onClick={() =>
-            this.setState(
-              { mapopen: !this.state.mapopen },
-              console.log(this.state.map)
-            )
-          }
-        >
-          map
-        </Button>
-        <Button fullWidth onClick={this.move}>
-          Move
-        </Button>
-      </div>
+        <Grid item xs={4}>
+          <Button
+            fullWidth
+            onClick={() =>
+              this.setState(
+                { mapopen: !this.state.mapopen },
+                console.log(this.state.map)
+              )
+            }
+          >
+            map
+          </Button>
+        </Grid>
+      </Grid>
     );
   }
 }

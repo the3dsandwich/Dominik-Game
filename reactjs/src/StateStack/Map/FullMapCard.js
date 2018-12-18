@@ -9,8 +9,7 @@ const FullMapCard = ({ map }) => {
   for (const tile of mapList) {
     tiles.push(
       <Typography variant="caption" style={style.typography} key={tile.loc}>
-        {tile.display}
-        {tile.loc % map.size === map.size - 1 ? <br /> : " "}
+        {tile.display} {tile.loc % map.size === map.size - 1 ? <br /> : null}
       </Typography>
     );
   }
@@ -24,11 +23,6 @@ const FullMapCard = ({ map }) => {
 
 const style = {
   card: {
-    position: "absolute",
-    left: "25%",
-    top: "15%",
-    height: "70%",
-    width: "50%",
     textAlign: "center",
     overflowX: "scroll",
     overflowY: "scroll"

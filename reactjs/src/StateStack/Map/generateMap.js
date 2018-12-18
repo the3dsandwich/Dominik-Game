@@ -217,4 +217,4 @@ const generateMap = size => {
 };
 
 export default generateMap;
-export { PlayerTile, FieldTile };
+export { PlayerTile, FieldTile, isNei };

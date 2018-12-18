@@ -15,12 +15,16 @@
 /reactjs/build
 
 # misc
-/reactjs.DS_Store
-/reactjs.env.local
-/reactjs.env.development.local
-/reactjs.env.test.local
-/reactjs.env.production.local
+/reactjs/.DS_Store
+/reactjs/.env.local
+/reactjs/.env.development.local
+/reactjs/.env.test.local
+/reactjs/.env.production.local
 
-/reactjsnpm-debug.log*
-/reactjsyarn-debug.log*
-/reactjsyarn-error.log*
+/reactjs/npm-debug.log*
+/reactjs/yarn-debug.log*
+/reactjs/yarn-error.log*
+
+/reactjs/.firebaserc
+/reactjs/.firebase
+/reactjs/build
