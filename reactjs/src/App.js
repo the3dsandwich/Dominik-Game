@@ -1,17 +1,18 @@
 import React, { Component } from "react";
+import { Grid } from "@material-ui/core";
 import generateMap, { isNei, FieldTile } from "./StateStack/Map/generateMap";
+import { player } from "./Unit/unitClass";
 import MapViewState from "./StateStack/Map/MapViewState";
 import MapState from "./StateStack/Map/MapState";
-import { Button, Grid } from "@material-ui/core";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      player: null,
+      player: new player(),
       map: generateMap(30),
-      gameState: [],
-      mapopen: false
+      mapOpen: false,
+      battleOpen: false
     };
   }
 
@@ -24,7 +25,7 @@ class App extends Component {
     this.setState({ map }, console.log(this.state.map));
   };
 
-  toggleMapView = () => this.setState({ mapopen: !this.state.mapopen });
+  toggleMapView = () => this.setState({ mapOpen: !this.state.mapOpen });
 
   handleKey = e => {
     switch (e.keyCode) {
@@ -83,7 +84,7 @@ class App extends Component {
         ? comparTil.loc
         : playerLoc;
     map.playerLoc = newPlayerLoc;
-    this.setState({ map });
+    if (!this.state.mapOpen) this.setState({ map });
   };
 
   render() {
@@ -96,17 +97,16 @@ class App extends Component {
         onKeyDown={this.handleKey}
       >
         <Grid item xs={12}>
-          <MapState map={this.state.map} handleMove={this.handleMoveClick} />
-        </Grid>
-        <MapViewState
-          open={this.state.mapopen}
-          map={this.state.map}
-          onClose={this.toggleMapView}
-        />
-        <Grid item xs={4}>
-          <Button fullWidth onClick={this.toggleMapView}>
-            map
-          </Button>
+          <MapState
+            map={this.state.map}
+            toggleMap={this.toggleMapView}
+            handleMove={this.handleMoveClick}
+          />
+          <MapViewState
+            open={this.state.mapOpen}
+            map={this.state.map}
+            onClose={this.toggleMapView}
+          />
         </Grid>
       </Grid>
     );

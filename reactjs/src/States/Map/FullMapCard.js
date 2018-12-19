@@ -8,7 +8,12 @@ const FullMapCard = ({ map }) => {
   let tiles = [];
   for (const tile of mapList) {
     tiles.push(
-      <Typography variant="caption" style={style.typography} key={tile.loc}>
+      <Typography
+        variant="caption"
+        color={tile.color}
+        style={style.typography}
+        key={tile.loc}
+      >
         {tile.display} {tile.loc % map.size === map.size - 1 ? <br /> : null}
       </Typography>
     );

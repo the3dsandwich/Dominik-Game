@@ -43,7 +43,12 @@ const LocMapCard = ({ map }) => {
     let rowIndex = 0;
     for (const tile of row) {
       tiles.push(
-        <Typography variant="h2" style={style.typography} key={tile.loc}>
+        <Typography
+          variant="h2"
+          color={tile.color}
+          style={style.typography}
+          key={tile.loc}
+        >
           {tile.display}
         </Typography>
       );

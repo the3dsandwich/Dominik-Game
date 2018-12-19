@@ -40,6 +40,19 @@ class MapState extends Component {
             {directionButton(2, "down", this.props.handleMove)}
             {directionButton(1, "right", this.props.handleMove)}
           </Grid>
+          <Grid item container direction="row" spacing={8}>
+            <Grid item xs={4} />
+            <Grid item xs={4}>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="secondary"
+                onClick={this.props.toggleMap}
+              >
+                Map
+              </Button>
+            </Grid>{" "}
+          </Grid>
         </Grid>
       </Grid>
     );

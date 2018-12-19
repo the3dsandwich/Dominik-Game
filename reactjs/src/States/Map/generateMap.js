@@ -1,7 +1,10 @@
+import { goblin } from "../../Unit/unitClass";
+
 class Tile {
   constructor(loc) {
     this.loc = loc;
     this.display = "E";
+    this.color = "textSecondary";
   }
 }
 
@@ -25,6 +28,7 @@ class LadderTile extends Tile {
     super(loc);
     this.loc = loc;
     this.display = "L";
+    this.color = "default";
   }
 }
 
@@ -33,6 +37,7 @@ class PlayerTile extends Tile {
     super(loc);
     this.loc = loc;
     this.display = "@";
+    this.color = "primary";
   }
 }
 
@@ -41,6 +46,7 @@ class ItemTile extends Tile {
     super(loc);
     this.loc = loc;
     this.display = "I";
+    this.color = "secondary";
   }
 }
 
@@ -49,6 +55,8 @@ class MonsterTile extends Tile {
     super(loc);
     this.loc = loc;
     this.display = "M";
+    this.color = "secondary";
+    this.monster = new goblin();
   }
 }
 
