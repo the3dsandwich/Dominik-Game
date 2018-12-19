@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Typography, Modal, Card, Button } from "@material-ui/core";
 import { unit as unitClass } from "../../Unit/unitClass";
+import { PathTile } from "../Map/generateMap";
 
 const status = unit =>
   unit instanceof unitClass ? (
@@ -34,6 +35,25 @@ class SingleBattleState extends Component {
     };
   }
 
+  attack = (dealing, dealt, attackID) => {
+    dealt.setHP(dealt.getHP() - dealing.dealDamage(attackID));
+  };
+
+  attackClick = () => {
+    let opponent = this.state.opponent;
+    let player = this.state.player;
+    this.attack(player, opponent, 0);
+    this.attack(opponent, player, 0);
+    this.setState({ opponent, player });
+    if (player.getHP() <= 0 || opponent.getHP() <= 0) {
+      this.props.updateMap(
+        this.props.map.playerLoc,
+        new PathTile(this.props.map.playerLoc)
+      );
+      this.props.closeBattle();
+    }
+  };
+
   render() {
     return (
       <Modal open={this.props.open} onClose={this.props.closeBattle}>
@@ -53,7 +73,9 @@ class SingleBattleState extends Component {
                   {status(this.state.player)}
                   {status(this.state.opponent)}
                   <Grid item xs={12}>
-                    <Button fullWidth>attack</Button>
+                    <Button fullWidth onClick={this.attackClick}>
+                      attack
+                    </Button>
                   </Grid>
                 </Grid>
               </Card>

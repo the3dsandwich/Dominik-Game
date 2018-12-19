@@ -31,6 +31,7 @@ class App extends Component {
   };
 
   toggleMapView = () => this.setState({ mapOpen: !this.state.mapOpen });
+
   closeBattle = () => this.setState({ battleOpen: false });
 
   handleKey = e => {

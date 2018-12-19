@@ -225,4 +225,4 @@ const generateMap = size => {
 };
 
 export default generateMap;
-export { PlayerTile, FieldTile, MonsterTile, isNei };
+export { PlayerTile, FieldTile, PathTile, MonsterTile, isNei };

@@ -1,10 +1,19 @@
+import { attack } from "./attackClass";
+
 class unit {
   constructor(name) {
     this.name = name ? name : "Unit";
     this.HP = this.MHP = 10;
     this.MP = this.MMP = 10;
     this.items = [];
-    this.attacks = [];
+    this.attacks = [
+      new attack({
+        name: "punch",
+        mpUsage: 0,
+        basePower: 3,
+        description: "a basic attack"
+      })
+    ];
   }
 
   setHP = newHP => {
@@ -21,6 +30,15 @@ class unit {
 
   getMP = () => {
     return this.MP;
+  };
+
+  dealDamage = i => {
+    if (this.attacks[i] instanceof attack) {
+      if (this.attacks[i].mpUsage <= this.MP) {
+        this.setMP(this.MP - this.attacks[i].mpUsage);
+        return this.attacks[i].calcDamage();
+      }
+    }
   };
 }
 
