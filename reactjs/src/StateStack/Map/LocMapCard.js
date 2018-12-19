@@ -40,12 +40,20 @@ const LocMapCard = ({ map }) => {
       else row.push(new FieldTile(j));
     }
 
+    let rowIndex = 0;
     for (const tile of row) {
       tiles.push(
-        <Typography variant="body1" style={style.typography} key={tile.loc}>
-          {tile.display}{" "}
+        <Typography variant="h2" style={style.typography} key={tile.loc}>
+          {tile.display}
         </Typography>
       );
+      if (rowIndex % map.viewRange < map.viewRange - 1)
+        tiles.push(
+          <Typography variant="h4" style={style.typography} key={Math.random()}>
+            {" "}
+          </Typography>
+        );
+      rowIndex++;
     }
     tiles.push(<br key={Math.random()} />);
   }

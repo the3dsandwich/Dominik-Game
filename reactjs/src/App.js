@@ -24,6 +24,34 @@ class App extends Component {
     this.setState({ map }, console.log(this.state.map));
   };
 
+  toggleMapView = () => this.setState({ mapopen: !this.state.mapopen });
+
+  handleKey = e => {
+    switch (e.keyCode) {
+      case 37:
+      case 65:
+        this.move(3);
+        break;
+      case 38:
+      case 87:
+        this.move(0);
+        break;
+      case 39:
+      case 68:
+        this.move(1);
+        break;
+      case 40:
+      case 83:
+        this.move(2);
+        break;
+      case 77:
+        this.toggleMapView();
+        break;
+      default:
+        break;
+    }
+  };
+
   handleMoveClick = id => {
     this.move(id);
   };
@@ -60,25 +88,23 @@ class App extends Component {
 
   render() {
     return (
-      <Grid container justify="center" xs={12} spacing={16}>
+      <Grid
+        container
+        justify="center"
+        spacing={16}
+        tabIndex="0"
+        onKeyDown={this.handleKey}
+      >
         <Grid item xs={12}>
           <MapState map={this.state.map} handleMove={this.handleMoveClick} />
         </Grid>
         <MapViewState
           open={this.state.mapopen}
           map={this.state.map}
-          onClose={() => this.setState({ mapopen: !this.state.mapopen })}
+          onClose={this.toggleMapView}
         />
         <Grid item xs={4}>
-          <Button
-            fullWidth
-            onClick={() =>
-              this.setState(
-                { mapopen: !this.state.mapopen },
-                console.log(this.state.map)
-              )
-            }
-          >
+          <Button fullWidth onClick={this.toggleMapView}>
             map
           </Button>
         </Grid>

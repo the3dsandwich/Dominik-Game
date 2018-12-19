@@ -21,17 +21,17 @@ class MapState extends Component {
     return (
       <Grid container justify="center" spacing={16}>
         <Grid item xs={12}>
-          <Typography align="center" variant="h3">
+          <Typography align="center" variant="h1">
             Dominik
           </Typography>
         </Grid>
         <Grid item container xs={12} justify="center">
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={6}>
             <LocMapCard map={this.props.map} />
           </Grid>
         </Grid>
         <Grid item container xs={12} md={3} direction="column" spacing={8}>
-          <Grid item container direction="row">
+          <Grid item container direction="row" spacing={8}>
             <Grid item xs={4} />
             {directionButton(0, "up", this.props.handleMove)}
           </Grid>
