@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
-import generateMap, { isNei, FieldTile } from "./StateStack/Map/generateMap";
+import generateMap, {
+  isNei,
+  FieldTile,
+  MonsterTile
+} from "./States/Map/generateMap";
 import { player } from "./Unit/unitClass";
-import MapViewState from "./StateStack/Map/MapViewState";
-import MapState from "./StateStack/Map/MapState";
+import MapViewState from "./States/Map/MapViewState";
+import MapState from "./States/Map/MapState";
+import SingleBattleState from "./States/Battle/SingleBattleState";
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +31,7 @@ class App extends Component {
   };
 
   toggleMapView = () => this.setState({ mapOpen: !this.state.mapOpen });
+  closeBattle = () => this.setState({ battleOpen: false });
 
   handleKey = e => {
     switch (e.keyCode) {
@@ -58,33 +64,35 @@ class App extends Component {
   };
 
   move = direction => {
-    let map = this.state.map;
-    let playerLoc = map.playerLoc;
-    let comparTil;
-    switch (direction) {
-      case 0:
-        comparTil = map.map[playerLoc - map.size];
-        break;
-      case 1:
-        comparTil = map.map[playerLoc + 1];
-        break;
-      case 2:
-        comparTil = map.map[playerLoc + map.size];
-        break;
-      case 3:
-        comparTil = map.map[playerLoc - 1];
-        break;
-      default:
-        comparTil = new FieldTile(0);
-        break;
+    if (!this.state.mapOpen) {
+      let map = this.state.map;
+      let playerLoc = map.playerLoc;
+      let comparTil;
+      switch (direction) {
+        case 0:
+          comparTil = map.map[playerLoc - map.size];
+          break;
+        case 1:
+          comparTil = map.map[playerLoc + 1];
+          break;
+        case 2:
+          comparTil = map.map[playerLoc + map.size];
+          break;
+        case 3:
+          comparTil = map.map[playerLoc - 1];
+          break;
+        default:
+          comparTil = new FieldTile(0);
+          break;
+      }
+      const newPlayerLoc =
+        isNei(playerLoc, comparTil.loc, false, map.size) &&
+        !(comparTil instanceof FieldTile)
+          ? comparTil.loc
+          : playerLoc;
+      map.playerLoc = newPlayerLoc;
+      this.setState({ map, battleOpen: comparTil instanceof MonsterTile });
     }
-    const newPlayerLoc =
-      isNei(playerLoc, comparTil.loc, false, map.size) &&
-      !(comparTil instanceof FieldTile)
-        ? comparTil.loc
-        : playerLoc;
-    map.playerLoc = newPlayerLoc;
-    if (!this.state.mapOpen) this.setState({ map });
   };
 
   render() {
@@ -106,6 +114,15 @@ class App extends Component {
             open={this.state.mapOpen}
             map={this.state.map}
             onClose={this.toggleMapView}
+          />
+          <SingleBattleState
+            open={this.state.battleOpen}
+            closeAction={this.closeBattle}
+            player={this.state.player}
+            opponent={this.state.map.map[this.state.map.playerLoc].monster}
+            map={this.state.map}
+            updateMap={this.updateMap}
+            updatePlayer={this.updatePlayer}
           />
         </Grid>
       </Grid>

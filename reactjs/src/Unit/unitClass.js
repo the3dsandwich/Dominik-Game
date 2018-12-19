@@ -58,4 +58,4 @@ class goblin extends monster {
   }
 }
 
-export { player, goblin };
+export { player, monster, goblin, unit };
