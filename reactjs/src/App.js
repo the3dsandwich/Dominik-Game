@@ -64,7 +64,7 @@ class App extends Component {
   };
 
   move = direction => {
-    if (!this.state.mapOpen) {
+    if (!this.state.mapOpen && !this.state.battleOpen) {
       let map = this.state.map;
       let playerLoc = map.playerLoc;
       let comparTil;
@@ -115,15 +115,18 @@ class App extends Component {
             map={this.state.map}
             onClose={this.toggleMapView}
           />
-          <SingleBattleState
-            open={this.state.battleOpen}
-            closeAction={this.closeBattle}
-            player={this.state.player}
-            opponent={this.state.map.map[this.state.map.playerLoc].monster}
-            map={this.state.map}
-            updateMap={this.updateMap}
-            updatePlayer={this.updatePlayer}
-          />
+          {this.state.map.map[this.state.map.playerLoc] instanceof
+          MonsterTile ? (
+            <SingleBattleState
+              open={this.state.battleOpen}
+              closeBattle={this.closeBattle}
+              player={this.state.player}
+              opponent={this.state.map.map[this.state.map.playerLoc].monster}
+              map={this.state.map}
+              updateMap={this.updateMap}
+              updatePlayer={this.updatePlayer}
+            />
+          ) : null}
         </Grid>
       </Grid>
     );

@@ -32,7 +32,7 @@ class SingleBattleState extends Component {
 
   render() {
     return (
-      <Modal open={this.props.open}>
+      <Modal open={this.props.open} onClose={this.props.closeBattle}>
         <Grid container>
           {status(this.state.player)}
           {status(this.state.opponent)}
