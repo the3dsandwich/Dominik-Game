@@ -39,10 +39,10 @@ class SingleBattleState extends Component {
     dealt.setHP(dealt.getHP() - dealing.dealDamage(attackID));
   };
 
-  attackClick = () => {
+  attackClick = attackid => {
     let opponent = this.state.opponent;
     let player = this.state.player;
-    this.attack(player, opponent, 0);
+    this.attack(player, opponent, attackid);
     this.attack(opponent, player, 0);
     this.setState({ opponent, player });
     if (player.getHP() <= 0 || opponent.getHP() <= 0) {
@@ -72,11 +72,13 @@ class SingleBattleState extends Component {
                 <Grid container justify="center" spacing={16}>
                   {status(this.state.player)}
                   {status(this.state.opponent)}
-                  <Grid item xs={12}>
-                    <Button fullWidth onClick={this.attackClick}>
-                      attack
-                    </Button>
-                  </Grid>
+                  {this.state.player.attacks.map((attack, id) => (
+                    <Grid item xs={12} md={6} key={attack.name}>
+                      <Button fullWidth onClick={() => this.attackClick(id)}>
+                        {attack.name}
+                      </Button>
+                    </Grid>
+                  ))}
                 </Grid>
               </Card>
             </Grid>

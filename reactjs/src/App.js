@@ -9,6 +9,7 @@ import { player } from "./Unit/unitClass";
 import MapViewState from "./States/Map/MapViewState";
 import MapState from "./States/Map/MapState";
 import SingleBattleState from "./States/Battle/SingleBattleState";
+import PlayerViewState from "./States/Player/PlayerViewState";
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class App extends Component {
       player: new player(),
       map: generateMap(30),
       mapOpen: false,
-      battleOpen: false
+      battleOpen: false,
+      playerOpen: false
     };
   }
 
@@ -31,6 +33,9 @@ class App extends Component {
   };
 
   toggleMapView = () => this.setState({ mapOpen: !this.state.mapOpen });
+
+  togglePlayerView = () =>
+    this.setState({ playerOpen: !this.state.playerOpen });
 
   closeBattle = () => this.setState({ battleOpen: false });
 
@@ -54,6 +59,9 @@ class App extends Component {
         break;
       case 77:
         this.toggleMapView();
+        break;
+      case 80:
+        this.togglePlayerView();
         break;
       default:
         break;
@@ -115,6 +123,11 @@ class App extends Component {
             open={this.state.mapOpen}
             map={this.state.map}
             onClose={this.toggleMapView}
+          />
+          <PlayerViewState
+            player={this.state.player}
+            open={this.state.playerOpen}
+            onClose={this.togglePlayerView}
           />
           {this.state.map.map[this.state.map.playerLoc] instanceof
           MonsterTile ? (

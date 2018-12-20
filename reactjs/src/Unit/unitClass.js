@@ -49,6 +49,14 @@ class player extends unit {
     this.MHP = this.HP = 30;
     this.MMP = this.MP = 30;
     this.monsterDefeated = 0;
+    this.attacks.push(
+      new attack({
+        name: "kick",
+        mpUsage: 0,
+        basePower: 5,
+        description: "a normal kick"
+      })
+    );
   }
 
   setMD = () => this.monsterDefeated++;
