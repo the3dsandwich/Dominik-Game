@@ -7,7 +7,12 @@ import {
   Button,
   LinearProgress
 } from "@material-ui/core";
-import { damagingMove, statusMove, attackMove, healMove } from "./attackClass";
+import {
+  damagingMove,
+  statusMove,
+  attackMove,
+  healMove
+} from "../Attack/attackClass";
 
 class unit {
   constructor(name) {
