@@ -26,7 +26,8 @@ class healMove extends statusMove {
     this.baseHeal = baseHeal;
   }
 
-  calcHeal = () => Math.floor(this.baseHeal * (85 + Math.random() * 30));
+  calcHeal = () =>
+    Math.floor((this.baseHeal * (85 + Math.random() * 30)) / 100);
 }
 
 export { damagingMove, attackMove, statusMove, healMove };
