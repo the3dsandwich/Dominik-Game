@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Grid, Button } from "@material-ui/core";
+import { Modal, Grid } from "@material-ui/core";
 import FullMapCard from "./FullMapCard";
 
 const MapViewState = ({ map, open, onClose }) => {
@@ -16,17 +16,7 @@ const MapViewState = ({ map, open, onClose }) => {
           style={{ padding: "2em" }}
         >
           <Grid item>
-            <FullMapCard map={map} />
-          </Grid>
-          <Grid item>
-            <Button
-              fullWidth
-              onClick={onClose}
-              color="primary"
-              variant="contained"
-            >
-              Close
-            </Button>
+            <FullMapCard map={map} onClose={onClose} />
           </Grid>
         </Grid>
       </Grid>

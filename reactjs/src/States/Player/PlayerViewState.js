@@ -10,7 +10,7 @@ const MapViewState = ({ player, open, onClose }) => {
           item
           container
           xs={12}
-          md={6}
+          md={4}
           direction="column"
           justify="center"
           style={{ padding: "2em" }}
