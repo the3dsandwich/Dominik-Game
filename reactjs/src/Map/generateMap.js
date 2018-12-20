@@ -1,4 +1,4 @@
-import { goblin } from "../../Unit/unitClass";
+import { goblin } from "../Unit/unitClass";
 
 class Tile {
   constructor(loc) {
@@ -224,5 +224,4 @@ const generateMap = size => {
   };
 };
 
-export default generateMap;
-export { PlayerTile, FieldTile, PathTile, MonsterTile, isNei };
+export { generateMap, PlayerTile, FieldTile, PathTile, MonsterTile, isNei };

@@ -1,35 +1,31 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
-import generateMap, {
-  isNei,
-  FieldTile,
-  MonsterTile
-} from "./States/Map/generateMap";
+import { isNei, FieldTile, MonsterTile } from "./Map/generateMap";
+import { Map } from "./Map/mapClass";
 import { player } from "./Unit/unitClass";
-import MapViewState from "./States/Map/MapViewState";
-import MapState from "./States/Map/MapState";
-import SingleBattleState from "./States/Battle/SingleBattleState";
-import PlayerViewState from "./States/Player/PlayerViewState";
+import MapState from "./States/MapState";
+import SingleBattleState from "./States/SingleBattleState";
+import { PlayerViewState, MapViewState } from "./States/ViewState";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       player: new player(),
-      map: generateMap(30),
+      map: new Map(30),
       mapOpen: false,
       battleOpen: false,
       playerOpen: false
     };
+    new Map(30);
   }
 
-  updatePlayer = newPlayerData =>
-    this.setState({ player: newPlayerData }, console.log(this.state.player));
+  updatePlayer = newPlayerData => this.setState({ player: newPlayerData });
 
   updateMap = (loc, newData) => {
     let map = this.state.map;
     map.map[loc] = newData;
-    this.setState({ map }, console.log(this.state.map));
+    this.setState({ map });
   };
 
   toggleMapView = () => this.setState({ mapOpen: !this.state.mapOpen });
@@ -117,6 +113,7 @@ class App extends Component {
           <MapState
             map={this.state.map}
             toggleMap={this.toggleMapView}
+            togglePlayer={this.togglePlayerView}
             handleMove={this.handleMoveClick}
           />
           <MapViewState

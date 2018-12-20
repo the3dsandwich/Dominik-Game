@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
-import LocMapCard from "./LocMapCard";
 
 const directionButton = (direction, text, handleMove) => (
   <Grid item xs={4}>
@@ -27,7 +26,7 @@ class MapState extends Component {
         </Grid>
         <Grid item container xs={12} justify="center">
           <Grid item xs={12} md={6}>
-            <LocMapCard map={this.props.map} />
+            {this.props.map.LocMapCard({ map: this.props.map })}
           </Grid>
         </Grid>
         <Grid item container xs={12} md={3} direction="column" spacing={8}>
@@ -40,18 +39,27 @@ class MapState extends Component {
             {directionButton(2, "down", this.props.handleMove)}
             {directionButton(1, "right", this.props.handleMove)}
           </Grid>
-          <Grid item container direction="row" spacing={8}>
-            <Grid item xs={4} />
-            <Grid item xs={4}>
+          <Grid item container direction="row" justify="center" spacing={8}>
+            <Grid item xs>
               <Button
                 fullWidth
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 onClick={this.props.toggleMap}
               >
                 Map
               </Button>
-            </Grid>{" "}
+            </Grid>
+            <Grid item xs>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="primary"
+                onClick={this.props.togglePlayer}
+              >
+                Status
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

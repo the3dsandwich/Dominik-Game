@@ -1,14 +1,32 @@
-class attack {
+class move {
   constructor({ name, mpUsage, basePower, description }) {
     this.name = name;
     this.mpUsage = mpUsage;
-    this.basePower = basePower;
     this.description = description;
   }
-
-  calcDamage = () => {
-    return Math.floor((this.basePower * (85 + Math.random() * 15)) / 100);
-  };
 }
 
-export { attack };
+class damagingMove extends move {}
+
+class attackMove extends damagingMove {
+  constructor({ name, mpUsage, basePower, description }) {
+    super({ name, mpUsage, description });
+    this.basePower = basePower;
+  }
+
+  calcDamage = () =>
+    Math.floor((this.basePower * (85 + Math.random() * 30)) / 100);
+}
+
+class statusMove extends move {}
+
+class healMove extends statusMove {
+  constructor({ name, mpUsage, baseHeal, description }) {
+    super({ name, mpUsage, description });
+    this.baseHeal = baseHeal;
+  }
+
+  calcHeal = () => Math.floor(this.baseHeal * (85 + Math.random() * 30));
+}
+
+export { damagingMove, attackMove, statusMove, healMove };
