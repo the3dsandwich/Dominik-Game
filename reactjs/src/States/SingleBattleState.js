@@ -109,7 +109,10 @@ class SingleBattleState extends Component {
                           disabled={this.state.end ? true : false}
                           onClick={() => this.doAttack(id)}
                         >
-                          {attack.name} ({["a", "s", "d", "f"][id]})
+                          {attack.name}
+                          {id < 4
+                            ? " (" + ["a", "s", "d", "f"][id] + ")"
+                            : null}
                         </Button>
                       </Grid>
                     ))}

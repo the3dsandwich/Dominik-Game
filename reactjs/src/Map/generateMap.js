@@ -1,4 +1,4 @@
-import { goblin } from "../Unit/unitClass";
+import { monster } from "../Unit/unitClass";
 
 class Tile {
   constructor(loc) {
@@ -56,7 +56,7 @@ class MonsterTile extends Tile {
     this.loc = loc;
     this.display = "M";
     this.color = "secondary";
-    this.monster = new goblin();
+    this.monster = new monster("Goblin");
   }
 }
 
@@ -224,4 +224,13 @@ const generateMap = size => {
   };
 };
 
-export { generateMap, PlayerTile, FieldTile, PathTile, MonsterTile, isNei };
+export {
+  generateMap,
+  PlayerTile,
+  FieldTile,
+  PathTile,
+  MonsterTile,
+  ItemTile,
+  LadderTile,
+  isNei
+};

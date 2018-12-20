@@ -12,22 +12,18 @@ import {
   statusMove,
   attackMove,
   healMove
-} from "../Attack/attackClass";
+} from "../Moves/moveClass";
+import { Item, HealItem } from "../Item/itemClass";
+import moves from "../Moves/moves.json";
 
+// UNIT UNIT UNIT UNIT UNIT UNIT UNIT UNIT UNIT UNIT UNIT UNIT
 class unit {
   constructor(name) {
     this.name = name ? name : "Unit";
     this.HP = this.MHP = 10;
     this.MP = this.MMP = 10;
     this.items = [];
-    this.attacks = [
-      new attackMove({
-        name: "punch",
-        mpUsage: 0,
-        basePower: 3,
-        description: "a basic attack"
-      })
-    ];
+    this.attacks = [new attackMove(moves.move.damagingMove.attackMove[0])];
   }
 
   setHP = newHP => {
@@ -101,6 +97,15 @@ class unit {
   );
 }
 
+// MONSTER MONSTER MONSTER MONSTER MONSTER MONSTER MONSTER MONSTER
+class monster extends unit {
+  constructor(name) {
+    name = name ? name : "Monster";
+    super(name);
+  }
+}
+
+// PLAYER PLAYER PLAYER PLAYER PLAYER PLAYER PLAYER PLAYER PLAYER
 class player extends unit {
   constructor(name) {
     name = name ? name : "Player";
@@ -108,22 +113,11 @@ class player extends unit {
     this.MHP = this.HP = 30;
     this.MMP = this.MP = 30;
     this.monsterDefeated = 0;
-    this.attacks.push(
-      new attackMove({
-        name: "kick",
-        mpUsage: 0,
-        basePower: 5,
-        description: "a normal kick"
-      })
-    );
-    this.attacks.push(
-      new healMove({
-        name: "heal",
-        mpUsage: 10,
-        baseHeal: 10,
-        description: "basic heal"
-      })
-    );
+    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[1]));
+    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[2]));
+    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[3]));
+    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[4]));
+    this.attacks.push(new healMove(moves.move.statusMove.healMove[0]));
   }
 
   setMD = () => this.monsterDefeated++;
@@ -134,6 +128,17 @@ class player extends unit {
 
   getScore = () => {
     return this.monsterDefeated * 100 + this.items.length * 10;
+  };
+
+  getItem = item => {
+    if (item instanceof Item) this.items.push(item);
+  };
+
+  useItem = i => {
+    if (i < this.items.length) {
+      this.items[i].use(this);
+      this.items.splice(i, 1);
+    }
   };
 
   FullPlayerCard = closeFunc => (
@@ -160,18 +165,4 @@ class player extends unit {
   );
 }
 
-class monster extends unit {
-  constructor(name) {
-    name = name ? name : "Monster";
-    super(name);
-  }
-}
-
-class goblin extends monster {
-  constructor(name) {
-    name = name ? name : "Goblin";
-    super(name);
-  }
-}
-
-export { player, monster, goblin, unit };
+export { player, monster, unit };

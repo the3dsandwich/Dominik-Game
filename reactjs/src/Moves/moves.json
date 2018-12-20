@@ -1,0 +1,48 @@
+{
+  "move": {
+    "damagingMove": {
+      "attackMove": [
+        {
+          "name": "Punch",
+          "mpUsage": 0,
+          "basePower": 3,
+          "description": "A basic punching attack"
+        },
+        {
+          "name": "Kick",
+          "mpUsage": 0,
+          "basePower": 5,
+          "description": "A basic kicking attack"
+        },
+        {
+          "name": "Fire",
+          "mpUsage": 3,
+          "basePower": 10,
+          "description": "A basic fire attack"
+        },
+        {
+          "name": "Blizzard",
+          "mpUsage": 3,
+          "basePower": 10,
+          "description": "A basic ice attack"
+        },
+        {
+          "name": "Thunder",
+          "mpUsage": 3,
+          "basePower": 10,
+          "description": "A basic electric attack"
+        }
+      ]
+    },
+    "statusMove": {
+      "healMove": [
+        {
+          "name": "Heal",
+          "mpUsage": 5,
+          "baseHeal": 10,
+          "description": "A basic healing move"
+        }
+      ]
+    }
+  }
+}

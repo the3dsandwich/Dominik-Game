@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
-import { isNei, FieldTile, MonsterTile } from "./Map/generateMap";
+import {
+  isNei,
+  FieldTile,
+  MonsterTile,
+  ItemTile,
+  // LadderTile,
+  PathTile
+} from "./Map/generateMap";
 import { Map } from "./Map/mapClass";
 import { player } from "./Unit/unitClass";
 import MapState from "./States/MapState";
@@ -28,11 +35,20 @@ class App extends Component {
     this.setState({ map });
   };
 
+  playerGetItem = loc => {
+    if (this.state.map.map[loc] instanceof ItemTile) {
+      let player = this.state.player;
+      player.getItem(this.state.map.map[loc].item);
+      this.updateMap(loc, new PathTile(loc));
+    }
+  };
+
   toggleMapView = () => this.setState({ mapOpen: !this.state.mapOpen });
 
   togglePlayerView = () =>
     this.setState({ playerOpen: !this.state.playerOpen });
 
+  openBattle = () => this.setState({ battleOpen: true });
   closeBattle = () => this.setState({ battleOpen: false });
 
   handleKey = e => {
@@ -96,7 +112,9 @@ class App extends Component {
           ? comparTil.loc
           : playerLoc;
       map.playerLoc = newPlayerLoc;
-      this.setState({ map, battleOpen: comparTil instanceof MonsterTile });
+
+      if (comparTil instanceof MonsterTile) this.openBattle();
+      if (comparTil instanceof ItemTile) this.playerGetItem(comparTil.loc);
     }
   };
 
