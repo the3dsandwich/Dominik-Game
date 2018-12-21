@@ -5,6 +5,10 @@ class move {
     this.description = description;
   }
 
+  titleString() {
+    return this.description + " MP Usage: " + this.mpUsage;
+  }
+
   execute(unit) {
     unit.takeDamage(0, this.mpUsage);
   }
@@ -20,6 +24,10 @@ class attackMove extends damagingMove {
   constructor({ name, mpUsage, basePower, description }) {
     super({ name, mpUsage, description });
     this.basePower = basePower;
+  }
+
+  titleString() {
+    return super.titleString() + ", Base Power: " + this.basePower;
   }
 
   execute(unit) {
@@ -38,6 +46,10 @@ class healMove extends statusMove {
   constructor({ name, mpUsage, baseHeal, description }) {
     super({ name, mpUsage, description });
     this.baseHeal = baseHeal;
+  }
+
+  titleString() {
+    return super.titleString() + ", Base Heal: " + this.baseHeal;
   }
 
   execute(unit) {

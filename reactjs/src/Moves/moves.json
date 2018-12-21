@@ -6,31 +6,31 @@
           "name": "Punch",
           "mpUsage": 0,
           "basePower": 3,
-          "description": "A basic punching attack"
+          "description": "A basic punching attack."
         },
         {
           "name": "Kick",
           "mpUsage": 0,
           "basePower": 5,
-          "description": "A basic kicking attack"
+          "description": "A basic kicking attack."
         },
         {
           "name": "Fire",
           "mpUsage": 3,
           "basePower": 10,
-          "description": "A basic fire attack"
+          "description": "A basic fire attack."
         },
         {
           "name": "Blizzard",
-          "mpUsage": 3,
-          "basePower": 10,
-          "description": "A basic ice attack"
+          "mpUsage": 5,
+          "basePower": 15,
+          "description": "A basic ice attack."
         },
         {
           "name": "Thunder",
-          "mpUsage": 3,
-          "basePower": 10,
-          "description": "A basic electric attack"
+          "mpUsage": 9,
+          "basePower": 30,
+          "description": "A basic electric attack."
         }
       ]
     },
@@ -40,7 +40,13 @@
           "name": "Heal",
           "mpUsage": 5,
           "baseHeal": 10,
-          "description": "A basic healing move"
+          "description": "A basic healing move."
+        },
+        {
+          "name": "Heal More",
+          "mpUsage": 10,
+          "baseHeal": 30,
+          "description": "A basic healing move. Heals more than Heal."
         }
       ]
     }

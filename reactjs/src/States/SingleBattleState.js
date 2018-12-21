@@ -6,7 +6,8 @@ import {
   Button,
   CardContent,
   CardActions,
-  Divider
+  Divider,
+  Tooltip
 } from "@material-ui/core";
 import { PathTile } from "../Map/generateMap";
 
@@ -112,19 +113,24 @@ class SingleBattleState extends Component {
                   <Grid container justify="center" spacing={16}>
                     {this.state.player.attacks.map((attack, id) => (
                       <Grid item xs={12} md={6} key={id}>
-                        <Button
-                          fullWidth
-                          disabled={
-                            (this.state.end ? true : false) ||
-                            attack.mpUsage > this.state.player.MP
-                          }
-                          onClick={() => this.makeMove(id)}
+                        <Tooltip
+                          title={attack.titleString()}
+                          placement="bottom"
                         >
-                          {attack.name}
-                          {id < 4
-                            ? " (" + ["a", "s", "d", "f"][id] + ")"
-                            : null}
-                        </Button>
+                          <Button
+                            fullWidth
+                            disabled={
+                              (this.state.end ? true : false) ||
+                              attack.mpUsage > this.state.player.MP
+                            }
+                            onClick={() => this.makeMove(id)}
+                          >
+                            {attack.name}
+                            {id < 4
+                              ? " (" + ["a", "s", "d", "f"][id] + ")"
+                              : null}
+                          </Button>
+                        </Tooltip>
                       </Grid>
                     ))}
                   </Grid>

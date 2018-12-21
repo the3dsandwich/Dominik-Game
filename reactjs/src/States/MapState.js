@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 const directionButton = (direction, text, handleMove) => (
   <Grid item xs={4}>

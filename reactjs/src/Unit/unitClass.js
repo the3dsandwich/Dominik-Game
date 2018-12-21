@@ -6,7 +6,8 @@ import {
   Typography,
   Button,
   LinearProgress,
-  Grid
+  Grid,
+  Tooltip
 } from "@material-ui/core";
 import { attackMove, healMove, move } from "../Moves/moveClass";
 import { Item, HealItem } from "../Item/itemClass";
@@ -18,9 +19,26 @@ class unit {
     this.name = name ? name : "Unit";
     this.HP = this.MHP = 10;
     this.MP = this.MMP = 10;
+    this.level = 1;
     this.items = [];
-    this.attacks = [new attackMove(moves.move.damagingMove.attackMove[0])];
+    this.attacks = [];
+    this.learnMove("attack", 0);
   }
+
+  learnMove = (type, id) => {
+    let newMove;
+    if (type === "attack")
+      newMove =
+        moves.move.damagingMove.attackMove.length > id
+          ? new attackMove(moves.move.damagingMove.attackMove[id])
+          : null;
+    if (type === "heal")
+      newMove =
+        moves.move.statusMove.healMove.length > id
+          ? new healMove(moves.move.statusMove.healMove[id])
+          : null;
+    if (newMove) this.attacks.push(newMove);
+  };
 
   heal = (hpHeal, mpHeal) => {
     this.HP = this.HP + hpHeal > this.MHP ? this.MHP : this.HP + hpHeal;
@@ -47,6 +65,7 @@ class unit {
       <Typography variant="h4" color="primary">
         {this.name}
       </Typography>
+      <Typography variant="caption">level {this.level}</Typography>
 
       <Typography variant="body1" align="right">
         HP: {this.HP} / {this.MHP}
@@ -67,6 +86,23 @@ class unit {
       />
     </CardContent>
   );
+
+  MoveCardContent = () => (
+    <CardContent>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subheading">Available moves:</Typography>
+        </Grid>
+        {this.attacks.map((attack, id) => (
+          <Grid item xs={3} key={id}>
+            <Tooltip title={attack.titleString()} placement="left">
+              <Typography variant="button">{attack.name}</Typography>
+            </Tooltip>
+          </Grid>
+        ))}
+      </Grid>
+    </CardContent>
+  );
 }
 
 // MONSTER MONSTER MONSTER MONSTER MONSTER MONSTER MONSTER MONSTER
@@ -85,11 +121,9 @@ class player extends unit {
     this.MHP = this.HP = 30;
     this.MMP = this.MP = 30;
     this.monsterDefeated = 0;
-    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[1]));
-    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[2]));
-    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[3]));
-    this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[4]));
-    this.attacks.push(new healMove(moves.move.statusMove.healMove[0]));
+    this.learnMove("attack", 1);
+    this.learnMove("attack", 3);
+    this.learnMove("heal", 0);
     this.items.push(
       new HealItem({
         name: "Potion",
@@ -134,6 +168,7 @@ class player extends unit {
             : null}
         </Grid>
       </Grid>
+      {this.MoveCardContent()}
       <CardActions>
         <Button
           fullWidth
