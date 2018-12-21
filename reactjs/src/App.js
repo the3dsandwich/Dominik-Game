@@ -96,10 +96,6 @@ class App extends Component {
     }
   };
 
-  handleMoveClick = id => {
-    this.move(id);
-  };
-
   move = direction => {
     if (!this.state.mapOpen && !this.state.battleOpen) {
       let map = this.state.map;
@@ -152,7 +148,7 @@ class App extends Component {
             map={this.state.map}
             toggleMap={this.toggleMapView}
             togglePlayer={this.togglePlayerView}
-            handleMove={this.handleMoveClick}
+            handleMove={this.move}
           />
           <MapViewState
             open={this.state.mapOpen}
