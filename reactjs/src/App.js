@@ -5,7 +5,7 @@ import {
   FieldTile,
   MonsterTile,
   ItemTile,
-  // LadderTile,
+  LadderTile,
   PathTile
 } from "./Map/generateMap";
 import { Map } from "./Map/mapClass";
@@ -31,18 +31,16 @@ class App extends Component {
 
   updatePlayer = newPlayerData => this.setState({ player: newPlayerData });
 
-  updateMap = (loc, newData) => {
-    let map = this.state.map;
-    map.map[loc] = newData;
-    this.setState({ map });
-  };
+  updateMap = newMapData => this.setState({ map: newMapData });
 
   playerGetItem = loc => {
     if (this.state.map.map[loc] instanceof ItemTile) {
       let player = this.state.player;
       player.items.push(this.state.map.map[loc].item);
       this.updatePlayer(player);
-      this.updateMap(loc, new PathTile(loc));
+      let map = this.state.map;
+      map.map[loc] = new PathTile(loc);
+      this.updateMap(map);
     }
   };
 
@@ -135,6 +133,8 @@ class App extends Component {
 
       if (comparTil instanceof MonsterTile) this.openBattle();
       if (comparTil instanceof ItemTile) this.playerGetItem(map.playerLoc);
+      if (comparTil instanceof LadderTile && this.state.map.monsterCount === 0)
+        this.setState({ map: new Map(30) });
     }
   };
 

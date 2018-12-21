@@ -126,6 +126,7 @@ class Map {
     );
   };
 }
+
 const style = {
   card: { padding: "2em", textAlign: "center", overflowX: "scroll" },
   typography: {

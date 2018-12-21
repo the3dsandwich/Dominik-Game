@@ -41,10 +41,9 @@ class SingleBattleState extends Component {
     player.monsterDefeated++;
     this.props.closeBattle();
     this.props.updatePlayer(player);
-    this.props.updateMap(
-      this.props.map.playerLoc,
-      new PathTile(this.props.map.playerLoc)
-    );
+    let map = this.props.map;
+    map.map[map.playerLoc] = new PathTile(map.playerLoc);
+    this.props.updateMap(map);
   };
 
   handleKey = e => {
