@@ -82,7 +82,7 @@ class player extends unit {
   constructor(name) {
     name = name ? name : "Player";
     super(name);
-    this.MHP = this.HP = 5;
+    this.MHP = this.HP = 30;
     this.MMP = this.MP = 30;
     this.monsterDefeated = 0;
     this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[1]));
