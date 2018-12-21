@@ -1,5 +1,5 @@
 class move {
-  constructor({ name, mpUsage, basePower, description }) {
+  constructor({ name, mpUsage, description }) {
     this.name = name;
     this.mpUsage = mpUsage;
     this.description = description;

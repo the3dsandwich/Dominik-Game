@@ -35,18 +35,18 @@ class App extends Component {
 
   playerGetItem = loc => {
     if (this.state.map.map[loc] instanceof ItemTile) {
-      let player = this.state.player;
+      let { player, map } = this.state;
       player.items.push(this.state.map.map[loc].item);
-      this.updatePlayer(player);
-      let map = this.state.map;
+      map.itemCount--;
       map.map[loc] = new PathTile(loc);
+      this.updatePlayer(player);
       this.updateMap(map);
     }
   };
 
   playerUseItem = i => {
     if (this.state.player.items[i] instanceof Item) {
-      let player = this.state.player;
+      let { player } = this.state;
       player.makeMove(this.state.player.items[i], i);
       this.updatePlayer(player);
     }
@@ -98,7 +98,7 @@ class App extends Component {
 
   move = direction => {
     if (!this.state.mapOpen && !this.state.battleOpen) {
-      let map = this.state.map;
+      let { map } = this.state;
       let playerLoc = map.playerLoc;
       let comparTil;
       switch (direction) {

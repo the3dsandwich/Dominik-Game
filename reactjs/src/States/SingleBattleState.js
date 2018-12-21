@@ -23,8 +23,7 @@ class SingleBattleState extends Component {
   makeMove = moveId => {
     if (this.state.player.attacks[moveId])
       if (this.state.player.attacks[moveId].mpUsage <= this.state.player.MP) {
-        let opponent = this.state.opponent;
-        let player = this.state.player;
+        let { player, opponent } = this.state;
         const playerDmg = player.makeMove(player.attacks[moveId], moveId);
         const opponentDmg = opponent.makeMove(opponent.attacks[0], 0);
         player.takeDamage(opponentDmg, 0);
@@ -38,11 +37,12 @@ class SingleBattleState extends Component {
 
   close = () => {
     let player = this.state.player;
+    let map = this.props.map;
     player.monsterDefeated++;
+    map.map[map.playerLoc] = new PathTile(map.playerLoc);
+    map.monsterCount--;
     this.props.closeBattle();
     this.props.updatePlayer(player);
-    let map = this.props.map;
-    map.map[map.playerLoc] = new PathTile(map.playerLoc);
     this.props.updateMap(map);
   };
 
