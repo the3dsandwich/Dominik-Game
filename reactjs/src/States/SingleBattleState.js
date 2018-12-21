@@ -16,7 +16,8 @@ class SingleBattleState extends Component {
     this.state = {
       player: this.props.player,
       opponent: this.props.opponent,
-      end: ""
+      end: "",
+      win: false
     };
   }
 
@@ -29,21 +30,27 @@ class SingleBattleState extends Component {
         player.takeDamage(opponentDmg, 0);
         opponent.takeDamage(playerDmg, 0);
         this.setState({ opponent, player });
-        if (player.HP <= 0 || opponent.HP <= 0) {
-          this.setState({ end: player.HP > 0 ? "Win! (e)" : "Lose! (e)" });
-        }
+        if (player.HP <= 0 || opponent.HP <= 0)
+          this.setState({
+            end: player.HP > 0 ? "Win! (e)" : "Lose! (e)",
+            win: player.HP > 0
+          });
       }
   };
 
   close = () => {
     let player = this.state.player;
     let map = this.props.map;
-    player.monsterDefeated++;
-    map.map[map.playerLoc] = new PathTile(map.playerLoc);
-    map.monsterCount--;
-    this.props.closeBattle();
-    this.props.updatePlayer(player);
-    this.props.updateMap(map);
+    if (this.state.win) {
+      player.monsterDefeated++;
+      map.map[map.playerLoc] = new PathTile(map.playerLoc);
+      map.monsterCount--;
+      this.props.closeBattle();
+      this.props.updatePlayer(player);
+      this.props.updateMap(map);
+    } else {
+      this.props.resetGame();
+    }
   };
 
   handleKey = e => {
@@ -71,7 +78,7 @@ class SingleBattleState extends Component {
 
   render() {
     return (
-      <Modal open={this.props.open} onClose={this.props.closeBattle}>
+      <Modal open={this.props.open}>
         <Grid
           container
           justify="center"

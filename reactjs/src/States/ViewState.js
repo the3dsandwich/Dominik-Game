@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Grid } from "@material-ui/core";
+import { Modal, Grid, Card, Button } from "@material-ui/core";
 
 const ViewState = ({ md, item, open, onClose }) => {
   return (
@@ -43,5 +43,22 @@ const ItemViewState = ({ player, open, onClose }) => (
   <ViewState md={4} open={open} onClose={onClose} item={null} />
 );
 
+const LoseViewState = ({ player, open, onClose }) => (
+  <ViewState
+    md={4}
+    open={open}
+    onClose={onClose}
+    item={
+      <Card>
+        {player.StatusCardContent()}
+        {player.ScoreCardContent()}
+        <Button fullWidth onClick={onClose}>
+          Close
+        </Button>
+      </Card>
+    }
+  />
+);
+
 export default ViewState;
-export { PlayerViewState, MapViewState, ItemViewState };
+export { PlayerViewState, MapViewState, ItemViewState, LoseViewState };

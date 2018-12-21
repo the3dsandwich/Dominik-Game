@@ -12,21 +12,27 @@ import { Map } from "./Map/mapClass";
 import { player } from "./Unit/unitClass";
 import MapState from "./States/MapState";
 import SingleBattleState from "./States/SingleBattleState";
-import { PlayerViewState, MapViewState } from "./States/ViewState";
+import {
+  PlayerViewState,
+  MapViewState,
+  LoseViewState
+} from "./States/ViewState";
 import { Item } from "./Item/itemClass";
+
+const initialState = name => ({
+  player: new player(name),
+  map: new Map(30),
+  mapOpen: false,
+  battleOpen: false,
+  playerOpen: false,
+  itemOpen: false,
+  loseOpen: false
+});
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      player: new player(),
-      map: new Map(30),
-      mapOpen: false,
-      battleOpen: false,
-      playerOpen: false,
-      itemOpen: false
-    };
-    new Map(30);
+    this.state = initialState();
   }
 
   updatePlayer = newPlayerData => this.setState({ player: newPlayerData });
@@ -58,6 +64,8 @@ class App extends Component {
     this.setState({ playerOpen: !this.state.playerOpen });
 
   toggleItemView = () => this.setState({ itemOpen: !this.state.itemOpen });
+
+  resetGame = () => this.setState(initialState());
 
   openBattle = () => this.setState({ battleOpen: true });
 
@@ -167,6 +175,11 @@ class App extends Component {
             onClose={this.togglePlayerView}
             playerUseItem={this.playerUseItem}
           />
+          <LoseViewState
+            player={this.state.player}
+            open={this.state.loseOpen}
+            onClose={this.resetGame}
+          />
           {this.state.map.map[this.state.map.playerLoc] instanceof
           MonsterTile ? (
             <SingleBattleState
@@ -177,6 +190,7 @@ class App extends Component {
               map={this.state.map}
               updateMap={this.updateMap}
               updatePlayer={this.updatePlayer}
+              resetGame={this.resetGame}
             />
           ) : null}
         </Grid>
@@ -195,7 +209,7 @@ class App extends Component {
             "player/p    brings up your character status",
             "map/m       brings up your map"
           ].map(line => (
-            <Typography variant="body1" align="left">
+            <Typography variant="body1" align="left" key={Math.random()}>
               {line}
             </Typography>
           ))}
