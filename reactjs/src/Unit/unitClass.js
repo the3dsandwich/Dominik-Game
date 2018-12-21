@@ -94,9 +94,11 @@ class unit {
           <Typography variant="subheading">Available moves:</Typography>
         </Grid>
         {this.attacks.map((attack, id) => (
-          <Grid item xs={3} key={id}>
+          <Grid item xs={4} md={3} key={id}>
             <Tooltip title={attack.titleString()} placement="left">
-              <Typography variant="button">{attack.name}</Typography>
+              <Typography variant="button" align="center">
+                {attack.name}
+              </Typography>
             </Tooltip>
           </Grid>
         ))}
