@@ -7,6 +7,10 @@ class Item {
     this.description = description ? description : "Description";
   }
 
+  use(owner, index) {
+    owner.items.splice(index, 1);
+  }
+
   ItemCardContent = (useItem, id) => (
     <CardContent>
       <Grid container>
@@ -36,6 +40,11 @@ class HealItem extends Item {
     super({ name, description });
     this.hpHeal = hpHeal ? hpHeal : 0;
     this.mpHeal = mpHeal ? mpHeal : 0;
+  }
+
+  use(owner, index) {
+    owner.heal(this.hpHeal, this.mpHeal);
+    super.use(owner, index);
   }
 
   HealItemCard = () => {};

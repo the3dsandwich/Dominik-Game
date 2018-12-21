@@ -4,9 +4,17 @@ class move {
     this.mpUsage = mpUsage;
     this.description = description;
   }
+
+  execute(unit) {
+    unit.takeDamage(0, this.mpUsage);
+  }
 }
 
-class damagingMove extends move {}
+class damagingMove extends move {
+  execute(unit) {
+    super.execute(unit);
+  }
+}
 
 class attackMove extends damagingMove {
   constructor({ name, mpUsage, basePower, description }) {
@@ -14,11 +22,17 @@ class attackMove extends damagingMove {
     this.basePower = basePower;
   }
 
-  calcDamage = () =>
-    Math.floor((this.basePower * (85 + Math.random() * 30)) / 100);
+  execute(unit) {
+    super.execute(unit);
+    return Math.floor((this.basePower * (85 + Math.random() * 30)) / 100);
+  }
 }
 
-class statusMove extends move {}
+class statusMove extends move {
+  execute(unit) {
+    super.execute(unit);
+  }
+}
 
 class healMove extends statusMove {
   constructor({ name, mpUsage, baseHeal, description }) {
@@ -26,8 +40,11 @@ class healMove extends statusMove {
     this.baseHeal = baseHeal;
   }
 
-  calcHeal = () =>
-    Math.floor((this.baseHeal * (85 + Math.random() * 30)) / 100);
+  execute(unit) {
+    super.execute(unit);
+    unit.heal(Math.floor((this.baseHeal * (85 + Math.random() * 30)) / 100), 0);
+    return 0;
+  }
 }
 
-export { damagingMove, attackMove, statusMove, healMove };
+export { move, damagingMove, attackMove, statusMove, healMove };

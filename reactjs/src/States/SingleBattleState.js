@@ -20,21 +20,20 @@ class SingleBattleState extends Component {
     };
   }
 
-  attack = (dealing, dealt, attackID) => {
-    dealt.setHP(dealt.getHP() - dealing.useMove(attackID));
-  };
-
-  doAttack = attackid => {
-    if (this.state.player.attacks[attackid]) {
-      let opponent = this.state.opponent;
-      let player = this.state.player;
-      this.attack(player, opponent, attackid);
-      this.attack(opponent, player, 0);
-      this.setState({ opponent, player });
-      if (player.getHP() <= 0 || opponent.getHP() <= 0) {
-        this.setState({ end: player.getHP() > 0 ? "Win! (e)" : "Lose! (e)" });
+  makeMove = moveId => {
+    if (this.state.player.attacks[moveId])
+      if (this.state.player.attacks[moveId].mpUsage <= this.state.player.MP) {
+        let opponent = this.state.opponent;
+        let player = this.state.player;
+        const playerDmg = player.makeMove(player.attacks[moveId], moveId);
+        const opponentDmg = opponent.makeMove(opponent.attacks[0], 0);
+        player.takeDamage(opponentDmg, 0);
+        opponent.takeDamage(playerDmg, 0);
+        this.setState({ opponent, player });
+        if (player.HP <= 0 || opponent.HP <= 0) {
+          this.setState({ end: player.HP > 0 ? "Win! (e)" : "Lose! (e)" });
+        }
       }
-    }
   };
 
   close = () => {
@@ -50,16 +49,16 @@ class SingleBattleState extends Component {
   handleKey = e => {
     switch (e.keyCode) {
       case 65:
-        this.doAttack(0);
+        this.makeMove(0);
         break;
       case 83:
-        this.doAttack(1);
+        this.makeMove(1);
         break;
       case 68:
-        this.doAttack(2);
+        this.makeMove(2);
         break;
       case 70:
-        this.doAttack(3);
+        this.makeMove(3);
         break;
       case 13:
       case 69:
@@ -108,8 +107,11 @@ class SingleBattleState extends Component {
                       <Grid item xs={12} md={6} key={id}>
                         <Button
                           fullWidth
-                          disabled={this.state.end ? true : false}
-                          onClick={() => this.doAttack(id)}
+                          disabled={
+                            (this.state.end ? true : false) ||
+                            attack.mpUsage > this.state.player.MP
+                          }
+                          onClick={() => this.makeMove(id)}
                         >
                           {attack.name}
                           {id < 4
@@ -148,4 +150,5 @@ const style = {
     overflowY: "scroll"
   }
 };
+
 export default SingleBattleState;

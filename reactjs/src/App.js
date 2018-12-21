@@ -40,7 +40,7 @@ class App extends Component {
   playerGetItem = loc => {
     if (this.state.map.map[loc] instanceof ItemTile) {
       let player = this.state.player;
-      player.getItem(this.state.map.map[loc].item);
+      player.items.push(this.state.map.map[loc].item);
       this.updatePlayer(player);
       this.updateMap(loc, new PathTile(loc));
     }
@@ -49,7 +49,7 @@ class App extends Component {
   playerUseItem = i => {
     if (this.state.player.items[i] instanceof Item) {
       let player = this.state.player;
-      player.useItem(i);
+      player.makeMove(this.state.player.items[i], i);
       this.updatePlayer(player);
     }
   };

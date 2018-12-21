@@ -12,7 +12,8 @@ import {
   damagingMove,
   statusMove,
   attackMove,
-  healMove
+  healMove,
+  move
 } from "../Moves/moveClass";
 import { Item, HealItem } from "../Item/itemClass";
 import moves from "../Moves/moves.json";
@@ -27,63 +28,61 @@ class unit {
     this.attacks = [new attackMove(moves.move.damagingMove.attackMove[0])];
   }
 
-  setHP = newHP => {
-    if (newHP > this.MHP) this.HP = this.MHP;
-    else if (newHP < 0) this.HP = 0;
-    else this.HP = newHP;
+  heal = (hpHeal, mpHeal) => {
+    this.HP = this.HP + hpHeal > this.MHP ? this.MHP : this.HP + hpHeal;
+    this.MP = this.MP + mpHeal > this.MMP ? this.MMP : this.MP + mpHeal;
   };
 
-  getHP = () => {
-    return this.HP;
+  takeDamage = (hpDmg, mpDmg) => {
+    this.HP = this.HP - hpDmg < 0 ? 0 : this.HP - hpDmg;
+    this.MP = this.MP - mpDmg < 0 ? 0 : this.MP - mpDmg;
   };
 
-  setMP = newMP => {
-    if (newMP > this.MMP) this.MP = this.MMP;
-    else if (newMP < 0) this.MP = 0;
-    else this.MP = newMP;
-  };
-
-  getMP = () => {
-    return this.MP;
-  };
-
-  getItem = item => {
-    if (item instanceof Item) this.items.push(item);
-  };
-
-  useItem = i => {
-    if (this.items[i] instanceof Item) {
-      if (this.items[i] instanceof HealItem) {
-        this.setHP(this.getHP() + this.items[i].hpHeal);
-        this.setMP(this.getMP() + this.items[i].mpHeal);
-      }
-      this.items.splice(i, 1);
+  makeMove = (operation, operationIndex) => {
+    if (operation instanceof Item) {
+      operation.use(this, operationIndex);
     }
+    if (operation instanceof move) {
+      return operation.execute(this);
+    }
+    return this;
   };
 
-  useMove = i => {
-    if (this.attacks[i] instanceof damagingMove) {
-      return this.dealDamage(i);
-    }
-    if (this.attacks[i] instanceof statusMove) {
-      if (this.attacks[i] instanceof healMove) this.healMove(i);
-      return 0;
-    }
-  };
+  // getItem = item => {
+  //   if (item instanceof Item) this.items.push(item);
+  // };
 
-  healMove = i => {
-    if (this.attacks[i].mpUsage <= this.MP) {
-      this.setMP(this.MP - this.attacks[i].mpUsage);
-      this.setHP(this.getHP() + this.attacks[i].calcHeal());
-    }
-  };
+  // useItem = i => {
+  //   if (this.items[i] instanceof Item) {
+  //     if (this.items[i] instanceof HealItem)
+  //       this.heal(this.items[i].hpHeal, this.items[i].mpHeal);
+  //     this.items.splice(i, 1);
+  //   }
+  // };
 
-  dealDamage = i => {
-    if (this.attacks[i].mpUsage <= this.MP) {
-      this.setMP(this.MP - this.attacks[i].mpUsage);
-      return this.attacks[i].calcDamage();
-    }
-  };
+  // useMove = i => {
+  //   if (this.attacks[i] instanceof damagingMove) {
+  //     return this.dealDamage(i);
+  //   }
+  //   if (this.attacks[i] instanceof statusMove) {
+  //     if (this.attacks[i] instanceof healMove) this.healMove(i);
+  //     return 0;
+  //   }
+  // };
+
+  // healMove = i => {
+  //   if (this.attacks[i].mpUsage <= this.MP) {
+  //     this.setMP(this.MP - this.attacks[i].mpUsage);
+  //     this.setHP(this.getHP() + this.attacks[i].calcHeal());
+  //   }
+  // };
+
+  // dealDamage = i => {
+  //   if (this.attacks[i].mpUsage <= this.MP) {
+  //     this.setMP(this.MP - this.attacks[i].mpUsage);
+  //     return this.attacks[i].calcDamage();
+  //   }
+  // };
 
   StatusCardContent = () => (
     <CardContent>
@@ -133,7 +132,7 @@ class player extends unit {
     this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[3]));
     this.attacks.push(new attackMove(moves.move.damagingMove.attackMove[4]));
     this.attacks.push(new healMove(moves.move.statusMove.healMove[0]));
-    this.getItem(
+    this.items.push(
       new HealItem({
         name: "Potion",
         hpHeal: 10,
