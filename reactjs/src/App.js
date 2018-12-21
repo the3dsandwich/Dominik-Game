@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import {
   isNei,
   FieldTile,
@@ -144,6 +144,12 @@ class App extends Component {
         onKeyDown={this.handleKey}
       >
         <Grid item xs={12}>
+          <Typography align="center" variant="h1">
+            Dominik
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12} md={8}>
           <MapState
             map={this.state.map}
             toggleMap={this.toggleMapView}
@@ -173,6 +179,26 @@ class App extends Component {
               updatePlayer={this.updatePlayer}
             />
           ) : null}
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Typography variant="title" align="left">
+            Info
+          </Typography>
+          {[
+            "Welcome! In this dungeon exploring game you're required to defeat all monsters on each floor. 'M' indicates the monsters you are required to defeat, and 'I' are the items you can pick up. When you've defeated all monsters in a floor, you may return to the ladder (indicated by 'L') to go up to the next floor.",
+            "Things you may want to remember:",
+            "up/w        goes up",
+            "down/s      goes down",
+            "left/a      goes left",
+            "right/d     goes right",
+            "player/p    brings up your character status",
+            "map/m       brings up your map"
+          ].map(line => (
+            <Typography variant="body1" align="left">
+              {line}
+            </Typography>
+          ))}
         </Grid>
       </Grid>
     );

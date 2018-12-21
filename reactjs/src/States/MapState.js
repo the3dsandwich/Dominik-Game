@@ -19,11 +19,6 @@ class MapState extends Component {
   render() {
     return (
       <Grid container justify="center" spacing={16}>
-        <Grid item xs={12}>
-          <Typography align="center" variant="h1">
-            Dominik
-          </Typography>
-        </Grid>
         <Grid item container xs={12} justify="center">
           <Grid item xs={12} md={6}>
             {this.props.map.LocMapCard({ map: this.props.map })}
