@@ -48,42 +48,6 @@ class unit {
     return this;
   };
 
-  // getItem = item => {
-  //   if (item instanceof Item) this.items.push(item);
-  // };
-
-  // useItem = i => {
-  //   if (this.items[i] instanceof Item) {
-  //     if (this.items[i] instanceof HealItem)
-  //       this.heal(this.items[i].hpHeal, this.items[i].mpHeal);
-  //     this.items.splice(i, 1);
-  //   }
-  // };
-
-  // useMove = i => {
-  //   if (this.attacks[i] instanceof damagingMove) {
-  //     return this.dealDamage(i);
-  //   }
-  //   if (this.attacks[i] instanceof statusMove) {
-  //     if (this.attacks[i] instanceof healMove) this.healMove(i);
-  //     return 0;
-  //   }
-  // };
-
-  // healMove = i => {
-  //   if (this.attacks[i].mpUsage <= this.MP) {
-  //     this.setMP(this.MP - this.attacks[i].mpUsage);
-  //     this.setHP(this.getHP() + this.attacks[i].calcHeal());
-  //   }
-  // };
-
-  // dealDamage = i => {
-  //   if (this.attacks[i].mpUsage <= this.MP) {
-  //     this.setMP(this.MP - this.attacks[i].mpUsage);
-  //     return this.attacks[i].calcDamage();
-  //   }
-  // };
-
   StatusCardContent = () => (
     <CardContent>
       <Typography variant="h4" color="primary">
@@ -142,19 +106,15 @@ class player extends unit {
     );
   }
 
-  setMD = () => this.monsterDefeated++;
-
-  getMD = () => {
-    return this.monsterDefeated;
-  };
-
   getScore = () => {
     return this.monsterDefeated * 100 + this.items.length * 10;
   };
 
   ScoreCardContent = () => (
     <CardContent>
-      <Typography variant="body1">Monsters Defeated: {this.getMD()}</Typography>
+      <Typography variant="body1">
+        Monsters Defeated: {this.monsterDefeated}
+      </Typography>
       <Typography variant="body1">Score: {this.getScore()}</Typography>
     </CardContent>
   );
