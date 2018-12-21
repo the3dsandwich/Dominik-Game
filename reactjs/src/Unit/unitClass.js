@@ -8,13 +8,7 @@ import {
   LinearProgress,
   Grid
 } from "@material-ui/core";
-import {
-  damagingMove,
-  statusMove,
-  attackMove,
-  healMove,
-  move
-} from "../Moves/moveClass";
+import { attackMove, healMove, move } from "../Moves/moveClass";
 import { Item, HealItem } from "../Item/itemClass";
 import moves from "../Moves/moves.json";
 
@@ -106,9 +100,7 @@ class player extends unit {
     );
   }
 
-  getScore = () => {
-    return this.monsterDefeated * 100 + this.items.length * 10;
-  };
+  getScore = () => this.monsterDefeated * 100 + this.items.length * 10;
 
   ScoreCardContent = () => (
     <CardContent>

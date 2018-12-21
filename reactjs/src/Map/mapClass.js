@@ -21,6 +21,20 @@ class Map {
     this.viewRange = 7;
   }
 
+  StatusCard = () => (
+    <CardContent>
+      <Typography variant="button" color="textSecondary">
+        Viewing Range: {this.viewRange}
+      </Typography>
+      <Typography variant="button" color="textSecondary">
+        Monsters Remaining: {this.monsterCount}
+      </Typography>
+      <Typography variant="button" color="textSecondary">
+        Items Remaining: {this.itemCount}
+      </Typography>
+    </CardContent>
+  );
+
   FullMapCard = onClose => {
     let mapList = this.map.slice();
     mapList[this.playerLoc] = new PlayerTile(this.playerLoc);
@@ -41,6 +55,7 @@ class Map {
     return (
       <Card style={style.card}>
         <CardContent style={style.card}>{tiles.map(tile => tile)}</CardContent>
+        {this.StatusCard()}
         <CardActions>
           <Button
             fullWidth
@@ -122,6 +137,7 @@ class Map {
     return (
       <Card style={style.card}>
         <CardContent>{tiles.map(tile => tile)}</CardContent>
+        {this.StatusCard()}
       </Card>
     );
   };
