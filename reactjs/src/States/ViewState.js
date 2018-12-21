@@ -21,27 +21,27 @@ const ViewState = ({ md, item, open, onClose }) => {
   );
 };
 
-const PlayerViewState = ({ player, open, onClose }) => {
-  return (
-    <ViewState
-      md={4}
-      open={open}
-      onClose={onClose}
-      item={player.FullPlayerCard(onClose)}
-    />
-  );
-};
+const PlayerViewState = ({ player, open, onClose, playerUseItem }) => (
+  <ViewState
+    md={6}
+    open={open}
+    onClose={onClose}
+    item={player.FullPlayerCard(onClose, playerUseItem)}
+  />
+);
 
-const MapViewState = ({ map, open, onClose }) => {
-  return (
-    <ViewState
-      md={6}
-      open={open}
-      onClose={onClose}
-      item={map.FullMapCard(onClose)}
-    />
-  );
-};
+const MapViewState = ({ map, open, onClose }) => (
+  <ViewState
+    md={6}
+    open={open}
+    onClose={onClose}
+    item={map.FullMapCard(onClose)}
+  />
+);
+
+const ItemViewState = ({ player, open, onClose }) => (
+  <ViewState md={4} open={open} onClose={onClose} item={null} />
+);
 
 export default ViewState;
-export { PlayerViewState, MapViewState };
+export { PlayerViewState, MapViewState, ItemViewState };

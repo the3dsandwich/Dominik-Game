@@ -39,7 +39,7 @@ class Map {
       );
     }
     return (
-      <Card>
+      <Card style={style.card}>
         <CardContent style={style.card}>{tiles.map(tile => tile)}</CardContent>
         <CardActions>
           <Button
@@ -127,11 +127,7 @@ class Map {
   };
 }
 const style = {
-  card: {
-    textAlign: "center",
-    overflowX: "scroll",
-    overflowY: "scroll"
-  },
+  card: { padding: "2em", textAlign: "center", overflowX: "scroll" },
   typography: {
     fontFamily: "'Roboto Mono', monospace",
     display: "inline",

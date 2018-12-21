@@ -1,4 +1,5 @@
 import { monster } from "../Unit/unitClass";
+import { HealItem } from "../Item/itemClass";
 
 class Tile {
   constructor(loc) {
@@ -47,6 +48,29 @@ class ItemTile extends Tile {
     this.loc = loc;
     this.display = "I";
     this.color = "secondary";
+    this.item = randomSelect(
+      [
+        new HealItem({
+          name: "Potion",
+          hpHeal: 10,
+          mpHeal: 0,
+          description: "A simple potion. Heals 10 HP"
+        }),
+        new HealItem({
+          name: "Elixir",
+          hpHeal: 0,
+          mpHeal: 10,
+          description: "A basic elixir. Heals 10 MP"
+        }),
+        new HealItem({
+          name: "Full Heal",
+          hpHeal: 30,
+          mpHeal: 30,
+          description: "Something good"
+        })
+      ],
+      [0.5, 0.4, 0.1]
+    );
   }
 }
 

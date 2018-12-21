@@ -13,6 +13,7 @@ import { player } from "./Unit/unitClass";
 import MapState from "./States/MapState";
 import SingleBattleState from "./States/SingleBattleState";
 import { PlayerViewState, MapViewState } from "./States/ViewState";
+import { Item } from "./Item/itemClass";
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class App extends Component {
       map: new Map(30),
       mapOpen: false,
       battleOpen: false,
-      playerOpen: false
+      playerOpen: false,
+      itemOpen: false
     };
     new Map(30);
   }
@@ -39,7 +41,16 @@ class App extends Component {
     if (this.state.map.map[loc] instanceof ItemTile) {
       let player = this.state.player;
       player.getItem(this.state.map.map[loc].item);
+      this.updatePlayer(player);
       this.updateMap(loc, new PathTile(loc));
+    }
+  };
+
+  playerUseItem = i => {
+    if (this.state.player.items[i] instanceof Item) {
+      let player = this.state.player;
+      player.useItem(i);
+      this.updatePlayer(player);
     }
   };
 
@@ -48,7 +59,10 @@ class App extends Component {
   togglePlayerView = () =>
     this.setState({ playerOpen: !this.state.playerOpen });
 
+  toggleItemView = () => this.setState({ itemOpen: !this.state.itemOpen });
+
   openBattle = () => this.setState({ battleOpen: true });
+
   closeBattle = () => this.setState({ battleOpen: false });
 
   handleKey = e => {
@@ -75,7 +89,11 @@ class App extends Component {
       case 80:
         this.togglePlayerView();
         break;
+      case 73:
+        console.log("I");
+        break;
       default:
+        console.log(e.keyCode);
         break;
     }
   };
@@ -113,8 +131,10 @@ class App extends Component {
           : playerLoc;
       map.playerLoc = newPlayerLoc;
 
+      this.updateMap(map);
+
       if (comparTil instanceof MonsterTile) this.openBattle();
-      if (comparTil instanceof ItemTile) this.playerGetItem(comparTil.loc);
+      if (comparTil instanceof ItemTile) this.playerGetItem(map.playerLoc);
     }
   };
 
@@ -143,6 +163,7 @@ class App extends Component {
             player={this.state.player}
             open={this.state.playerOpen}
             onClose={this.togglePlayerView}
+            playerUseItem={this.playerUseItem}
           />
           {this.state.map.map[this.state.map.playerLoc] instanceof
           MonsterTile ? (

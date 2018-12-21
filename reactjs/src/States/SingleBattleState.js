@@ -5,7 +5,8 @@ import {
   Card,
   Button,
   CardContent,
-  CardActions
+  CardActions,
+  Divider
 } from "@material-ui/core";
 import { PathTile } from "../Map/generateMap";
 
@@ -93,13 +94,14 @@ class SingleBattleState extends Component {
                 <CardContent>
                   <Grid container spacing={16}>
                     <Grid item xs={12} md={6}>
-                      {this.state.player.StatusCard()}
+                      {this.state.player.StatusCardContent()}
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      {this.state.opponent.StatusCard()}
+                      {this.state.opponent.StatusCardContent()}
                     </Grid>
                   </Grid>
                 </CardContent>
+                <Divider />
                 <CardActions>
                   <Grid container justify="center" spacing={16}>
                     {this.state.player.attacks.map((attack, id) => (
