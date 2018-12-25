@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Grid, Typography } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  InputLabel,
+  Input,
+  Button
+} from "@material-ui/core";
 import {
   isNei,
   FieldTile,
@@ -95,9 +103,6 @@ class App extends Component {
       case 80:
         this.togglePlayerView();
         break;
-      case 73:
-        console.log("I");
-        break;
       default:
         console.log(e.keyCode);
         break;
@@ -150,6 +155,7 @@ class App extends Component {
         spacing={16}
         tabIndex="0"
         onKeyDown={this.handleKey}
+        style={{ padding: "2em" }}
       >
         <Grid item xs={12}>
           <Typography align="center" variant="h1">
@@ -202,17 +208,43 @@ class App extends Component {
           {[
             "Welcome! In this dungeon exploring game you're required to defeat all monsters on each floor. 'M' indicates the monsters you are required to defeat, and 'I' are the items you can pick up. When you've defeated all monsters in a floor, you may return to the ladder (indicated by 'L') to go up to the next floor.",
             "Things you may want to remember:",
-            "up/w        goes up",
-            "down/s      goes down",
-            "left/a      goes left",
-            "right/d     goes right",
-            "player/p    brings up your character status",
-            "map/m       brings up your map"
+            "W goes up",
+            "S goes down",
+            "A goes left",
+            "D goes right",
+            "P brings up your character status",
+            "M brings up your map"
           ].map(line => (
             <Typography variant="body1" align="left" key={Math.random()}>
               {line}
             </Typography>
           ))}
+          <Card style={{ marginTop: "2em" }}>
+            <CardContent>
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  let player = this.state.player;
+                  player.name = this.state.name ? this.state.name : player.name;
+                  this.updatePlayer(player);
+                  this.setState({ name: "" });
+                }}
+              >
+                <InputLabel>Name</InputLabel>
+                <Input
+                  fullWidth
+                  value={this.state.name}
+                  onChange={e => {
+                    e.preventDefault();
+                    this.setState({ name: e.target.value });
+                  }}
+                />
+                <Button type="submit" fullWidth color="primary">
+                  Submit
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     );
