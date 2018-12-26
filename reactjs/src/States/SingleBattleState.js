@@ -31,11 +31,18 @@ class SingleBattleState extends Component {
         player.takeDamage(opponentDmg, 0);
         opponent.takeDamage(playerDmg, 0);
         this.setState({ opponent, player });
-        if (player.HP <= 0 || opponent.HP <= 0)
+        if (opponent.HP <= 0) {
+          player.EXP += opponent.baseEXP;
+          while (player.EXP >= player.nextLvlEXP()) {
+            player.EXP -= player.nextLvlEXP();
+            player.level++;
+          }
           this.setState({
-            end: player.HP > 0 ? "Win! (e)" : "Lose! (e)",
-            win: player.HP > 0
+            end: "Win! (e)",
+            win: true
           });
+        }
+        if (player.HP <= 0) this.setState({ end: "Lose! (e)", win: false });
       }
   };
 

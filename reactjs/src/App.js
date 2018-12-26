@@ -34,7 +34,8 @@ const initialState = name => ({
   battleOpen: false,
   playerOpen: false,
   itemOpen: false,
-  loseOpen: false
+  loseOpen: false,
+  nameInputFocus: false
 });
 
 class App extends Component {
@@ -80,33 +81,34 @@ class App extends Component {
   closeBattle = () => this.setState({ battleOpen: false });
 
   handleKey = e => {
-    switch (e.keyCode) {
-      case 37:
-      case 65:
-        this.move(3);
-        break;
-      case 38:
-      case 87:
-        this.move(0);
-        break;
-      case 39:
-      case 68:
-        this.move(1);
-        break;
-      case 40:
-      case 83:
-        this.move(2);
-        break;
-      case 77:
-        this.toggleMapView();
-        break;
-      case 80:
-        this.togglePlayerView();
-        break;
-      default:
-        console.log(e.keyCode);
-        break;
-    }
+    if (!this.state.nameInputFocus)
+      switch (e.keyCode) {
+        case 37:
+        case 65:
+          this.move(3);
+          break;
+        case 38:
+        case 87:
+          this.move(0);
+          break;
+        case 39:
+        case 68:
+          this.move(1);
+          break;
+        case 40:
+        case 83:
+          this.move(2);
+          break;
+        case 77:
+          this.toggleMapView();
+          break;
+        case 80:
+          this.togglePlayerView();
+          break;
+        default:
+          console.log(e.keyCode);
+          break;
+      }
   };
 
   move = direction => {
@@ -238,6 +240,8 @@ class App extends Component {
                     e.preventDefault();
                     this.setState({ name: e.target.value });
                   }}
+                  onFocus={() => this.setState({ nameInputFocus: true })}
+                  onBlur={() => this.setState({ nameInputFocus: false })}
                 />
                 <Button type="submit" fullWidth color="primary">
                   Submit

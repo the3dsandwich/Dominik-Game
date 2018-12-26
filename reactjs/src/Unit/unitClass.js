@@ -22,8 +22,12 @@ class unit {
     this.level = 1;
     this.items = [];
     this.attacks = [];
+    this.baseEXP = this.level * this.MMP * this.MHP;
+    this.EXP = 0;
     this.learnMove("attack", 0);
   }
+
+  nextLvlEXP = () => this.level * this.level * 10;
 
   learnMove = (type, id) => {
     let newMove;
@@ -83,6 +87,15 @@ class unit {
         variant="determinate"
         color="secondary"
         value={(100 * this.MP) / this.MMP}
+      />
+
+      <Typography variant="body1" align="right">
+        EXP: {this.EXP} / {this.nextLvlEXP()}
+      </Typography>
+      <LinearProgress
+        variant="determinate"
+        color="secondary"
+        value={(100 * this.EXP) / this.nextLvlEXP()}
       />
     </CardContent>
   );
