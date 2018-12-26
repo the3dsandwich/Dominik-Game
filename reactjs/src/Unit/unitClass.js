@@ -90,11 +90,11 @@ class unit {
       />
 
       <Typography variant="body1" align="right">
-        EXP: {this.EXP} / {this.nextLvlEXP()}
+        EXP
       </Typography>
       <LinearProgress
         variant="determinate"
-        color="secondary"
+        color="primary"
         value={(100 * this.EXP) / this.nextLvlEXP()}
       />
     </CardContent>
